@@ -1,4 +1,4 @@
-from dpgtojson import JsonToDpg
+from jsontodpg import JsonToDpg
 from keywords import *
 from consts import dpg
 
@@ -23,7 +23,7 @@ connection_window = {
     "height": VIEW_HEIGHT / 4,
     
     
-    "c":[{tab_bar:{'label':'t'}},{tab_bar:{'label':'t2'}}]
+    "c":[{tab_bar:{'label':'t',"children":[{"tab_button":{}}]}},{tab_bar:{'label':'t2'}}]
     
     # tab_bar: {
     #     "label": "test",

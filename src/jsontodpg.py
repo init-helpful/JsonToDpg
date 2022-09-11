@@ -1,5 +1,5 @@
 from tokenizer import Tokenizer
-from keywords import *
+from dpgkeywords import *
 import dearpygui.dearpygui as dpg
 
 FUNCTION_NAME = "function name"

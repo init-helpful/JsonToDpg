@@ -98,4 +98,4 @@ class Tokenizer:
         )
         string = string + "\n" + f"__all__ = {components + self.parameters}"
 
-        write_to_py_file(file_name="keywords", data=string)
+        write_to_py_file(file_name="dpgkeywords", data=string)

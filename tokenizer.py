@@ -21,9 +21,7 @@ def remove_quotes(obj):
     return str(obj).replace('"', "").replace("'", "")
 
 
-def write_to_py_file(
-    file_path="Generated/", file_name="generated_python_file", data=""
-):
+def write_to_py_file(file_path="", file_name="generated_python_file", data=""):
     temp_path = file_path + file_name + ".py"
     with open(temp_path, "w") as f:
         f.write(data)
@@ -38,12 +36,15 @@ def check_for_substrings(string, comparison_list, return_diff=True):
 
 
 class Tokenizer:
-    def __init__(self, write_to_file=False):
+    def __init__(self, save_to_file=False):
+        #Which parameters can be used with each 
         self.component_parameter_relations = OrderedDict()
-        self.function_references = {}
+        self.components = {}
+        self.parameters = []
         # ---------------------------
         self.build_keyword_library()
-        self.write_to_file()
+        if save_to_file:
+            self.write_to_file()
 
     def build_keyword_library(self):
         for function_name in dir(dpg):
@@ -53,11 +54,9 @@ class Tokenizer:
                 clipped_keyword = clean_keyword(clipped_keyword)
                 function_reference = getattr(dpg, function_name)
 
-                self.function_references[clipped_keyword] = function_reference
+                self.components[clipped_keyword] = function_reference
 
-                self.component_parameter_relations[
-                    clipped_keyword
-                ] = clean_keywords_list(
+                params = clean_keywords_list(
                     [
                         param
                         for param in function_reference.__code__.co_varnames
@@ -65,21 +64,16 @@ class Tokenizer:
                     ]
                 )
 
-    def get_parameters(self):
-        self.parameters = []
+                # Add non-existing parameters to master parameter list
+                self.parameters = self.parameters + [
+                    param for param in params if not param in self.parameters
+                ]
 
-        for parameter_sets in self.component_parameter_relations.values():
-            for param in parameter_sets:
-                if param not in self.parameters:
-                    self.parameters.append(param)
-
-        self.parameters.sort()
-
-        return self.parameters
+                self.component_parameter_relations[clipped_keyword] = params
 
     def write_to_file(self):
-        string = ""
-        components = list(self.component_parameter_relations.keys())
+        string = "#THIS FILE WAS GENERATED\n"
+        components = list(self.components.keys())
 
         string = (
             string + f"#--------------COMPONENTS--------------[{len(components)}]\n"
@@ -87,8 +81,6 @@ class Tokenizer:
 
         for component in components:
             string = string + "\n" + f'{component}="{component}"'
-
-        self.get_parameters()
 
         string = (
             string
@@ -107,6 +99,3 @@ class Tokenizer:
         string = string + "\n" + f"__all__ = {components + self.parameters}"
 
         write_to_py_file(file_name="keywords", data=string)
-
-
-Tokenizer()

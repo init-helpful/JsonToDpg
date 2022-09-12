@@ -89,7 +89,7 @@ class JsonToDpg:
                     if parent:
                         self.call_stack[-1][ARGS].update({PARENT: parent})
                     self.call_stack[-1][ARGS].update({TAG: tag_name})
-            if object_lead in self.tokenizer.parameters:
+            elif object_lead in self.tokenizer.parameters:
                 self.call_stack[-1][ARGS].update({object_lead: _object[1]})
 
         for child in children_objects:

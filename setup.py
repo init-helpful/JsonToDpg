@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name="jsontodpg",
-    version="1.0",
+    version="1.1",
     description="Build DearPyGui user interface with json/python dictionaies",
     author="init-helpful",
     author_email="init.helpful@gmail.com",

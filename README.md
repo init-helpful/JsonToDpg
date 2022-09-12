@@ -56,6 +56,7 @@ or...
 
 from jsontodpg import JsonToDpg
 from dpgkeywords import *
+
 window_1 = {window: {label: "Example Window 1", width: 400, height: 400, pos: [0, 0]}}
 window_2 = {window: {label: "Example Window 2", width: 400, height: 400}, pos: [400, 0]}
 window_3 = {window: {label: "Example Window 3", width: 400, height: 400}, pos: [0, 400]}
@@ -73,7 +74,10 @@ main = {
         window_3,
         window_4,
     ],
+
 }
+
+JsonToDpg().parse(main)
 ```
 
 

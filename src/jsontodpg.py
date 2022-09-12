@@ -9,7 +9,6 @@ LEVEL = "level"
 PARENT = "parent"
 TAG = "tag"
 
-
 def children(obj):
     children_objects = []
     children_variables = []
@@ -38,6 +37,8 @@ class JsonToDpg:
         self.build(json_object)
 
         for function_call in self.call_stack:
+            print()
+            print(function_call)
             reference = function_call[FUNCTION_REF]
             args = function_call[ARGS]
             reference(**args)
@@ -86,7 +87,7 @@ class JsonToDpg:
                         }
                     )
                 )
-                if not object_lead == viewport:
+                if PARENT in self.tokenizer.component_parameter_relations[object_lead]:
                     parent = self.get_parent(level_num)
                     if parent:
                         self.call_stack[-1][ARGS].update({PARENT: parent})

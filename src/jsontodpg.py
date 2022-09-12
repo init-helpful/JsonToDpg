@@ -2,7 +2,7 @@ from tokenizer import Tokenizer
 from dpgkeywords import *
 import dearpygui.dearpygui as dpg
 
-FUNCTION_NAME = "function name"
+FUNCTION_NAME = "name"
 FUNCTION_REF = "function reference"
 ARGS = "args"
 LEVEL = "level"
@@ -36,8 +36,8 @@ class JsonToDpg:
 
     def run(self, json_object):
         self.build(json_object)
+
         for function_call in self.call_stack:
-            print(function_call)
             reference = function_call[FUNCTION_REF]
             args = function_call[ARGS]
             reference(**args)
@@ -71,15 +71,17 @@ class JsonToDpg:
 
         if isinstance(_object, tuple):
             object_lead = _object[0]
+
             if object_lead in self.tokenizer.components:
+
                 tag_name = f"{len(self.call_stack)}-{object_lead}"
                 self.call_stack.append(
                     (
                         {
+                            FUNCTION_NAME: object_lead,
                             FUNCTION_REF: self.tokenizer.components[object_lead],
                             TAG: tag_name,
                             LEVEL: level_num,
-                            FUNCTION_NAME: object_lead,
                             ARGS: {},
                         }
                     )
@@ -89,7 +91,10 @@ class JsonToDpg:
                     if parent:
                         self.call_stack[-1][ARGS].update({PARENT: parent})
                     self.call_stack[-1][ARGS].update({TAG: tag_name})
+
             elif object_lead in self.tokenizer.parameters:
+                if object_lead == TAG:
+                    self.call_stack[-1][TAG] = _object[1]
                 self.call_stack[-1][ARGS].update({object_lead: _object[1]})
 
         for child in children_objects:

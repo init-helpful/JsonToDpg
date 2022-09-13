@@ -3,100 +3,110 @@ from dpgkeywords import *
 import dearpygui.dearpygui as dpg
 
 FUNCTION_NAME = "name"
-FUNCTION_REF = "function reference"
+REFERENCE = "function reference"
 ARGS = "args"
 LEVEL = "level"
 PARENT = "parent"
 TAG = "tag"
 
-def children(obj):
-    children_objects = []
-    children_variables = []
 
-    object_types = {
+def children(obj):
+    """
+    Iterate through and find child objects from input collection
+
+    Args:
+        obj (tuple,dict,list): the parent object.
+
+    Returns:
+        Children collections of input collection if they are tuple, dict or list.
+    """
+
+    collection_types = {
         "tuple": lambda obj: obj,
-        "dict": lambda obj: obj.items(),
         "list": lambda obj: obj,
+        "dict": lambda obj: obj.items(),
     }
 
-    for x in object_types[type(obj).__name__](obj):
-        if type(x).__name__ in object_types:
-            children_objects.append(x)
-        else:
-            children_variables.append(x)
-
-    return children_objects
+    return [
+        item
+        for item in collection_types[type(obj).__name__](obj)
+        if type(item).__name__ in collection_types
+    ]
 
 
 class JsonToDpg:
-    def __init__(self):
-        self.tokenizer = Tokenizer()
-        self.call_stack = []
+    def __init__(self, custom_functions={}):
+        self.tokenizer = Tokenizer(custom_functions=custom_functions)
+        self.function_stack = []
 
-    def run(self, json_object):
-        self.build(json_object)
+    def __build_and_run(self, json_object):
+        self.build_function_stack(json_object)
 
-        for function_call in self.call_stack:
-            
-            reference = function_call[FUNCTION_REF]
-            args = function_call[ARGS]
-            reference(**args)
+        # Run each function in function stack
+        [function[REFERENCE](**function[ARGS]) for function in self.function_stack]
 
     def parse(self, json_object):
         dpg.create_context()
-        self.run(json_object)
+        self.__build_and_run(json_object)
         dpg.setup_dearpygui()
         dpg.show_viewport()
         dpg.start_dearpygui()
         dpg.destroy_context()
 
     def get_parent(self, current_level):
-        reverse_call_stack = self.call_stack[::-1]
+        reverse_call_stack = self.function_stack[::-1]
         for i in range(len(reverse_call_stack)):
             last_item = reverse_call_stack[i]
             if (
                 last_item[LEVEL] < current_level
                 and not last_item[FUNCTION_NAME] == "viewport"
             ):
-                return last_item[TAG]
+                return last_item[ARGS][TAG]
         return ""
 
-    def build(self, _object, level_num=0):
+    def build_function_stack(self, _object, level=0):
 
-        # Reset Call stack if somehow there is residual calls
-        if level_num == 0:
-            self.call_stack = []
+        # Reset call stack if somehow there is residual calls
+        if level == 0:
+            self.function_stack = []
 
+        # Find Tuples, Dicts, and Lists in current object
         children_objects = children(_object)
 
         if isinstance(_object, tuple):
-            object_lead = _object[0]
+            object_name = _object[0]
 
-            if object_lead in self.tokenizer.components:
+            # Is Recognized Function
+            if object_name in self.tokenizer.components:
+                tag_name = f"{len(self.function_stack)}-{object_name}"
+                self.__add_function_to_stack(object_name, level, tag_name)
+                self.__assign_parent_and_tag(object_name, level, tag_name)
 
-                tag_name = f"{len(self.call_stack)}-{object_lead}"
-                self.call_stack.append(
-                    (
-                        {
-                            FUNCTION_NAME: object_lead,
-                            FUNCTION_REF: self.tokenizer.components[object_lead],
-                            TAG: tag_name,
-                            LEVEL: level_num,
-                            ARGS: {},
-                        }
-                    )
-                )
-                if PARENT in self.tokenizer.component_parameter_relations[object_lead]:
-                    parent = self.get_parent(level_num)
-                    if parent:
-                        self.call_stack[-1][ARGS].update({PARENT: parent})
-                if TAG in self.tokenizer.component_parameter_relations[object_lead]:
-                    self.call_stack[-1][ARGS].update({TAG: tag_name})
+            # Is Recognized Parameter Of Function
+            elif object_name in self.tokenizer.parameters:
+                self.function_stack[-1][ARGS].update({object_name: _object[1]})
 
-            elif object_lead in self.tokenizer.parameters:
-                if object_lead == TAG:
-                    self.call_stack[-1][TAG] = _object[1]
-                self.call_stack[-1][ARGS].update({object_lead: _object[1]})
-
+        # Dig into Tuples, Dicts, and Lists. Increment Level. Start Again.
         for child in children_objects:
-            self.build(_object=child, level_num=level_num + 1)
+            self.build_function_stack(_object=child, level=level + 1)
+
+    def __add_function_to_stack(self, object_name, level, tag_name):
+        self.function_stack.append(
+            (
+                {
+                    FUNCTION_NAME: object_name,
+                    REFERENCE: self.tokenizer.components[object_name],
+                    TAG: tag_name,
+                    LEVEL: level,
+                    ARGS: {},
+                }
+            )
+        )
+
+    def __assign_parent_and_tag(self, object_name, level, tag_name):
+        if PARENT in self.tokenizer.component_parameter_relations[object_name]:
+            parent = self.get_parent(level)
+            if parent:
+                self.function_stack[-1][ARGS].update({PARENT: parent})
+        if TAG in self.tokenizer.component_parameter_relations[object_name]:
+            self.function_stack[-1][ARGS].update({TAG: tag_name})

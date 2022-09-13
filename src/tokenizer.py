@@ -1,7 +1,9 @@
+from re import I
 import dearpygui.dearpygui as dpg
 from collections import OrderedDict
 
-COMPONENT_IDENTIFIERS = ["add_", "create_"]
+COMPONENT_IDENTIFIERS_REMOVE_SUB = ["add_", "create_"]
+COMPONENT_IDENTIFIERS_KEEP_SUB = ["draw"]
 SHARED_PYTHON_KEYWORDS = ["format"]
 
 
@@ -27,17 +29,17 @@ def write_to_py_file(file_path="", file_name="generated_python_file", data=""):
         f.write(data)
 
 
-def check_for_substrings(string, comparison_list, return_diff=True):
+def check_for_substrings(string, comparison_list, return_diff=False):
     for sub in comparison_list:
         if sub in string:
             if return_diff:
                 return string.replace(sub, "")
-            return sub
+            return string
 
 
 class Tokenizer:
     def __init__(self, save_to_file=False):
-        #Which parameters can be used with each 
+        # Which parameters can be used with each
         self.component_parameter_relations = OrderedDict()
         self.components = {}
         self.parameters = []
@@ -47,8 +49,15 @@ class Tokenizer:
             self.write_to_file()
 
     def build_keyword_library(self):
+        
         for function_name in dir(dpg):
-            clipped_keyword = check_for_substrings(function_name, COMPONENT_IDENTIFIERS)
+            clipped_keyword = check_for_substrings(
+                function_name, COMPONENT_IDENTIFIERS_REMOVE_SUB, return_diff=True
+            )
+            if not clipped_keyword:
+                clipped_keyword = check_for_substrings(
+                    function_name, COMPONENT_IDENTIFIERS_KEEP_SUB
+                )
 
             if clipped_keyword:
                 clipped_keyword = clean_keyword(clipped_keyword)

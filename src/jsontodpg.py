@@ -37,8 +37,7 @@ class JsonToDpg:
         self.build(json_object)
 
         for function_call in self.call_stack:
-            print()
-            print(function_call)
+            
             reference = function_call[FUNCTION_REF]
             args = function_call[ARGS]
             reference(**args)
@@ -91,6 +90,7 @@ class JsonToDpg:
                     parent = self.get_parent(level_num)
                     if parent:
                         self.call_stack[-1][ARGS].update({PARENT: parent})
+                if TAG in self.tokenizer.component_parameter_relations[object_lead]:
                     self.call_stack[-1][ARGS].update({TAG: tag_name})
 
             elif object_lead in self.tokenizer.parameters:

@@ -3,7 +3,9 @@ import dearpygui.dearpygui as dpg
 from collections import OrderedDict
 
 COMPONENT_IDENTIFIERS_REMOVE_SUB = ["add_", "create_"]
-COMPONENT_IDENTIFIERS_KEEP_SUB = ["draw"]
+COMPONENT_IDENTIFIERS_KEEP_SUB = ["draw", "load_"]
+KEYWORD_IGNORE_SUBSTRINGS = ["mv", "__", "set"]
+
 SHARED_PYTHON_KEYWORDS = ["format"]
 
 
@@ -30,11 +32,12 @@ def write_to_py_file(file_path="", file_name="generated_python_file", data=""):
 
 
 def check_for_substrings(string, comparison_list, return_diff=False):
-    for sub in comparison_list:
-        if sub in string:
-            if return_diff:
-                return string.replace(sub, "")
-            return string
+    if not [sub for sub in KEYWORD_IGNORE_SUBSTRINGS if(sub in string)]:
+        for sub in comparison_list:
+            if sub in string:
+                if return_diff:
+                    return string.replace(sub, "")
+                return string
 
 
 class Tokenizer:
@@ -49,7 +52,7 @@ class Tokenizer:
             self.write_to_file()
 
     def build_keyword_library(self):
-        
+
         for function_name in dir(dpg):
             clipped_keyword = check_for_substrings(
                 function_name, COMPONENT_IDENTIFIERS_REMOVE_SUB, return_diff=True
@@ -58,13 +61,15 @@ class Tokenizer:
                 clipped_keyword = check_for_substrings(
                     function_name, COMPONENT_IDENTIFIERS_KEEP_SUB
                 )
+            
 
             if clipped_keyword:
                 clipped_keyword = clean_keyword(clipped_keyword)
                 function_reference = getattr(dpg, function_name)
-
+                
                 self.components[clipped_keyword] = function_reference
-
+                if 'load' in clipped_keyword:
+                    print(self.components[clipped_keyword])
                 params = clean_keywords_list(
                     [
                         param

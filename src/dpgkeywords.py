@@ -1,5 +1,5 @@
 # THIS FILE WAS GENERATED
-# --------------COMPONENTS--------------[178]
+# --------------COMPONENTS--------------[193]
 
 _2d_histogram_series = "_2d_histogram_series"
 _3d_slider = "_3d_slider"
@@ -179,8 +179,23 @@ rotation_matrix = "rotation_matrix"
 scale_matrix = "scale_matrix"
 translation_matrix = "translation_matrix"
 viewport = "viewport"
+draw_arrow = "draw_arrow"
+draw_bezier_cubic = "draw_bezier_cubic"
+draw_bezier_quadratic = "draw_bezier_quadratic"
+draw_circle = "draw_circle"
+draw_ellipse = "draw_ellipse"
+draw_image = "draw_image"
+draw_image_quad = "draw_image_quad"
+draw_line = "draw_line"
+draw_polygon = "draw_polygon"
+draw_polyline = "draw_polyline"
+draw_quad = "draw_quad"
+draw_rectangle = "draw_rectangle"
+draw_text = "draw_text"
+draw_triangle = "draw_triangle"
+get_drawing_mouse_pos = "get_drawing_mouse_pos"
 
-# --------------PARAMETERS--------------[335]
+# --------------PARAMETERS--------------[358]
 
 x = "x"
 y = "y"
@@ -411,6 +426,7 @@ location = "location"
 outside = "outside"
 overlay = "overlay"
 span_columns = "span_columns"
+disable_popup_close = "disable_popup_close"
 histogram = "histogram"
 autosize = "autosize"
 columns = "columns"
@@ -517,6 +533,28 @@ vsync = "vsync"
 always_on_top = "always_on_top"
 decorated = "decorated"
 clear_color = "clear_color"
+p1 = "p1"
+p2 = "p2"
+p3 = "p3"
+p4 = "p4"
+segments = "segments"
+center = "center"
+pmin = "pmin"
+pmax = "pmax"
+uv1 = "uv1"
+uv2 = "uv2"
+uv3 = "uv3"
+uv4 = "uv4"
+kwds = "kwds"
+points = "points"
+closed = "closed"
+color_upper_left = "color_upper_left"
+color_upper_right = "color_upper_right"
+color_bottom_right = "color_bottom_right"
+color_bottom_left = "color_bottom_left"
+multicolor = "multicolor"
+rounding = "rounding"
+text = "text"
 
 component_parameter_relations = {
     _2d_histogram_series: [
@@ -1214,36 +1252,9 @@ component_parameter_relations = {
         thickness,
         show_label,
     ],
-    draw_layer: [
-        label,
-        user_data,
-        use_internal_label,
-        tag,
-        parent,
-        before,
-        show,
-        perspective_divide,
-        depth_clipping,
-        cull_mode,
-    ],
-    draw_node: [label, user_data, use_internal_label, tag, parent, before, show],
-    drawlist: [
-        width,
-        height,
-        label,
-        user_data,
-        use_internal_label,
-        tag,
-        parent,
-        before,
-        callback,
-        show,
-        pos,
-        filter_key,
-        delay_search,
-        tracked,
-        track_offset,
-    ],
+    draw_layer: [kwds],
+    draw_node: [kwds],
+    drawlist: [kwds],
     dummy: [],
     dynamic_texture: [
         width,
@@ -2324,6 +2335,7 @@ component_parameter_relations = {
         track_offset,
         default_value,
         span_columns,
+        disable_popup_close,
     ],
     separator: [
         label,
@@ -2918,16 +2930,7 @@ component_parameter_relations = {
         selectable,
     ],
     value_registry: [label, user_data, use_internal_label, tag],
-    viewport_drawlist: [
-        label,
-        user_data,
-        use_internal_label,
-        tag,
-        show,
-        filter_key,
-        delay_search,
-        front,
-    ],
+    viewport_drawlist: [kwds],
     viewport_menu_bar: [
         label,
         user_data,
@@ -3008,6 +3011,219 @@ component_parameter_relations = {
         decorated,
         clear_color,
     ],
+    draw_arrow: [
+        p1,
+        p2,
+        label,
+        user_data,
+        use_internal_label,
+        tag,
+        parent,
+        before,
+        show,
+        color,
+        thickness,
+        size,
+    ],
+    draw_bezier_cubic: [
+        p1,
+        p2,
+        p3,
+        p4,
+        label,
+        user_data,
+        use_internal_label,
+        tag,
+        parent,
+        before,
+        show,
+        color,
+        thickness,
+        segments,
+    ],
+    draw_bezier_quadratic: [
+        p1,
+        p2,
+        p3,
+        label,
+        user_data,
+        use_internal_label,
+        tag,
+        parent,
+        before,
+        show,
+        color,
+        thickness,
+        segments,
+    ],
+    draw_circle: [
+        center,
+        radius,
+        label,
+        user_data,
+        use_internal_label,
+        tag,
+        parent,
+        before,
+        show,
+        color,
+        fill,
+        thickness,
+        segments,
+    ],
+    draw_ellipse: [
+        pmin,
+        pmax,
+        label,
+        user_data,
+        use_internal_label,
+        tag,
+        parent,
+        before,
+        show,
+        color,
+        fill,
+        thickness,
+        segments,
+    ],
+    draw_image: [
+        texture_tag,
+        pmin,
+        pmax,
+        label,
+        user_data,
+        use_internal_label,
+        tag,
+        parent,
+        before,
+        show,
+        uv_min,
+        uv_max,
+        color,
+    ],
+    draw_image_quad: [
+        texture_tag,
+        p1,
+        p2,
+        p3,
+        p4,
+        label,
+        user_data,
+        use_internal_label,
+        tag,
+        parent,
+        before,
+        show,
+        uv1,
+        uv2,
+        uv3,
+        uv4,
+        color,
+    ],
+    draw_line: [
+        p1,
+        p2,
+        label,
+        user_data,
+        use_internal_label,
+        tag,
+        parent,
+        before,
+        show,
+        color,
+        thickness,
+    ],
+    draw_polygon: [
+        points,
+        label,
+        user_data,
+        use_internal_label,
+        tag,
+        parent,
+        before,
+        show,
+        color,
+        fill,
+        thickness,
+    ],
+    draw_polyline: [
+        points,
+        label,
+        user_data,
+        use_internal_label,
+        tag,
+        parent,
+        before,
+        show,
+        closed,
+        color,
+        thickness,
+    ],
+    draw_quad: [
+        p1,
+        p2,
+        p3,
+        p4,
+        label,
+        user_data,
+        use_internal_label,
+        tag,
+        parent,
+        before,
+        show,
+        color,
+        fill,
+        thickness,
+    ],
+    draw_rectangle: [
+        pmin,
+        pmax,
+        label,
+        user_data,
+        use_internal_label,
+        tag,
+        parent,
+        before,
+        show,
+        color,
+        color_upper_left,
+        color_upper_right,
+        color_bottom_right,
+        color_bottom_left,
+        fill,
+        multicolor,
+        rounding,
+        thickness,
+    ],
+    draw_text: [
+        pos,
+        text,
+        label,
+        user_data,
+        use_internal_label,
+        tag,
+        parent,
+        before,
+        show,
+        color,
+        size,
+    ],
+    draw_triangle: [
+        p1,
+        p2,
+        p3,
+        label,
+        user_data,
+        use_internal_label,
+        tag,
+        parent,
+        before,
+        show,
+        color,
+        fill,
+        thickness,
+    ],
+    get_drawing_mouse_pos: [],
 }
 __all__ = [
     "_2d_histogram_series",
@@ -3188,6 +3404,21 @@ __all__ = [
     "scale_matrix",
     "translation_matrix",
     "viewport",
+    "draw_arrow",
+    "draw_bezier_cubic",
+    "draw_bezier_quadratic",
+    "draw_circle",
+    "draw_ellipse",
+    "draw_image",
+    "draw_image_quad",
+    "draw_line",
+    "draw_polygon",
+    "draw_polyline",
+    "draw_quad",
+    "draw_rectangle",
+    "draw_text",
+    "draw_triangle",
+    "get_drawing_mouse_pos",
     "x",
     "y",
     "label",
@@ -3417,6 +3648,7 @@ __all__ = [
     "outside",
     "overlay",
     "span_columns",
+    "disable_popup_close",
     "histogram",
     "autosize",
     "columns",
@@ -3523,4 +3755,26 @@ __all__ = [
     "always_on_top",
     "decorated",
     "clear_color",
+    "p1",
+    "p2",
+    "p3",
+    "p4",
+    "segments",
+    "center",
+    "pmin",
+    "pmax",
+    "uv1",
+    "uv2",
+    "uv3",
+    "uv4",
+    "kwds",
+    "points",
+    "closed",
+    "color_upper_left",
+    "color_upper_right",
+    "color_bottom_right",
+    "color_bottom_left",
+    "multicolor",
+    "rounding",
+    "text",
 ]

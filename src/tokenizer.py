@@ -2,8 +2,8 @@ from re import I
 import dearpygui.dearpygui as dpg
 from collections import OrderedDict
 
-COMPONENT_IDENTIFIERS_REMOVE_SUB = ["add_", "create_"]
-COMPONENT_IDENTIFIERS_KEEP_SUB = ["draw", "load_"]
+DEFAULT_ALTERING_KEYWORD_FILTERS = ["add_", "create_"]
+DEFAULT_NON_ALTERING_KEYWORD_FILTERS = ["draw", "load_"]
 KEYWORD_IGNORE_SUBSTRINGS = ["mv", "__", "set"]
 
 SHARED_PYTHON_KEYWORDS = ["format"]
@@ -41,53 +41,68 @@ def check_for_substrings(string, comparison_list, return_difference=False):
 
 
 class Tokenizer:
-    def __init__(self, custom_functions={}, save_to_file=False):
+    def __init__(self, save_to_file=False, other_packages=[], custom_functions={}):
 
         # Which parameters can be used with each
         self.component_parameter_relations = OrderedDict()
         self.components = {}
         self.parameters = []
+        self.custom_functions = {}
         # ---------------------------
-        self.build_keyword_library()
+        self.build_keyword_library(
+            dpg,
+            altering_filters=DEFAULT_ALTERING_KEYWORD_FILTERS,
+            non_altering_filters=DEFAULT_NON_ALTERING_KEYWORD_FILTERS,
+        )
+
         if save_to_file:
             self.write_to_file()
 
-    def __filter_keyword(self, function_name):
+    def __filter_keyword(
+        self, function_name, altering_filters=[], non_altering_filters=[]
+    ):
         """
-        Not all dearpygui functions make sense in json format.
-        This checks against the desired substrings.
-        e.g. functions starting with substring 'create_'.
-
+            Not all dearpygui functions make sense in json format.
+            This checks against the desired substrings.
+            e.g. functions starting with substring 'create_'.
 
         Args:
-            filtered_keyword (str, optional): _description_. Defaults to None.
+            filtered_keyword (str, optional):
         """
+        if not altering_filters and not non_altering_filters:
+            return function_name
 
-        # Find words containing staring keywords "create_" and "add_" remove found substring, pass back the difference.
-        filtered_keyword = check_for_substrings(
-            function_name, COMPONENT_IDENTIFIERS_REMOVE_SUB, return_difference=True
-        )
-        if filtered_keyword:
-            return filtered_keyword
+        if altering_filters:
+            filtered_keyword = check_for_substrings(
+                function_name, altering_filters, return_difference=True
+            )
+            if filtered_keyword:
 
-        # Find words containing staring keywords "create_" and "add_" remove found substring, pass back the difference.
-        filtered_keyword = check_for_substrings(
-            function_name, COMPONENT_IDENTIFIERS_KEEP_SUB
-        )
-        if filtered_keyword:
-            return filtered_keyword
+                return filtered_keyword
 
-    def build_keyword_library(self):
+        if non_altering_filters:
+            filtered_keyword = check_for_substrings(function_name, non_altering_filters)
+            if filtered_keyword:
+                return filtered_keyword
 
-        for function_name in dir(dpg):
-            filtered_keyword = self.__filter_keyword(function_name)
+    def build_keyword_library(
+        self,
+        package,
+        altering_filters=[],
+        non_altering_filters=[],
+    ):
+
+        for function_name in dir(package):
+            filtered_keyword = self.__filter_keyword(
+                function_name, altering_filters, non_altering_filters
+            )
 
             if filtered_keyword:
-                
+
                 filtered_keyword = clean_keyword(filtered_keyword)
                 function_reference = getattr(dpg, function_name)
                 self.components[filtered_keyword] = function_reference
-                
+
                 params = clean_keywords_list(
                     [
                         param

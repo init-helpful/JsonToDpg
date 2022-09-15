@@ -1,10 +1,11 @@
-from re import I
 import dearpygui.dearpygui as dpg
 from collections import OrderedDict
+import dpgextended as dpg_extended
+
 
 DEFAULT_ALTERING_KEYWORD_FILTERS = ["add_", "create_"]
 DEFAULT_NON_ALTERING_KEYWORD_FILTERS = ["draw", "load_"]
-KEYWORD_IGNORE_SUBSTRINGS = ["mv", "__", "set"]
+KEYWORD_IGNORE_SUBSTRINGS = ["mv", "__", "set", "dpg"]
 
 SHARED_PYTHON_KEYWORDS = ["format"]
 
@@ -41,7 +42,13 @@ def check_for_substrings(string, comparison_list, return_difference=False):
 
 
 class Tokenizer:
-    def __init__(self, save_to_file=False, other_packages=[], custom_functions={}):
+    def __init__(
+        self,
+        generate_keyword_file_name="",
+        custom_modules=[],
+        custom_functions={},
+        include_dpg_extended=True,
+    ):
 
         # Which parameters can be used with each
         self.component_parameter_relations = OrderedDict()
@@ -55,8 +62,11 @@ class Tokenizer:
             non_altering_filters=DEFAULT_NON_ALTERING_KEYWORD_FILTERS,
         )
 
-        if save_to_file:
-            self.write_to_file()
+        if include_dpg_extended:
+            self.build_keyword_library(dpg_extended)
+
+        if generate_keyword_file_name:
+            self.write_to_file(generate_keyword_file_name)
 
     def __filter_keyword(
         self, function_name, altering_filters=[], non_altering_filters=[]
@@ -70,7 +80,9 @@ class Tokenizer:
             filtered_keyword (str, optional):
         """
         if not altering_filters and not non_altering_filters:
-            return function_name
+            if not [sub for sub in KEYWORD_IGNORE_SUBSTRINGS if (sub in function_name)]:
+                if not function_name == function_name.upper():
+                    return function_name
 
         if altering_filters:
             filtered_keyword = check_for_substrings(
@@ -86,10 +98,7 @@ class Tokenizer:
                 return filtered_keyword
 
     def build_keyword_library(
-        self,
-        package,
-        altering_filters=[],
-        non_altering_filters=[],
+        self, package, altering_filters=[], non_altering_filters=[],
     ):
 
         for function_name in dir(package):
@@ -100,7 +109,7 @@ class Tokenizer:
             if filtered_keyword:
 
                 filtered_keyword = clean_keyword(filtered_keyword)
-                function_reference = getattr(dpg, function_name)
+                function_reference = getattr(package, function_name)
                 self.components[filtered_keyword] = function_reference
 
                 params = clean_keywords_list(
@@ -118,7 +127,7 @@ class Tokenizer:
 
                 self.component_parameter_relations[filtered_keyword] = params
 
-    def write_to_file(self):
+    def write_to_file(self, file_name):
         string = "#THIS FILE WAS GENERATED\n"
         components = list(self.components.keys())
 
@@ -145,4 +154,4 @@ class Tokenizer:
         )
         string = string + "\n" + f"__all__ = {components + self.parameters}"
 
-        write_to_py_file(file_name="dpgkeywords", data=string)
+        write_to_py_file(file_name=file_name, data=string)

@@ -35,14 +35,20 @@ def children(obj):
 
 
 class JsonToDpg:
-    def __init__(self, custom_functions={}):
-        self.tokenizer = Tokenizer(custom_functions=custom_functions)
-        
+    def __init__(self, generate_keyword_file_name="", custom_modules=[], custom_functions={}):
+        self.tokenizer = Tokenizer(
+            generate_keyword_file_name=generate_keyword_file_name,
+            custom_modules=custom_modules,
+            custom_functions=custom_functions,
+        )
 
     def __build_and_run(self, json_object):
-        self.build_function_stack(json_object)            
-        # Run each functions stack
-        [function[REFERENCE](**function[ARGS]) for function in self.function_stack]
+        self.build_function_stack(json_object)
+        # Run each function in stack
+        # [function[REFERENCE](**function[ARGS]) for function in self.function_stack]
+        for function in self.function_stack:
+            
+            function[REFERENCE](**function[ARGS])
 
     def parse(self, json_object):
         dpg.create_context()
@@ -64,7 +70,7 @@ class JsonToDpg:
         return ""
 
     def build_function_stack(self, _object, level=0):
-        
+
         # Reset call stack if somehow there is residual calls
         if level == 0:
             self.function_stack = []
@@ -90,6 +96,7 @@ class JsonToDpg:
             self.build_function_stack(_object=child, level=level + 1)
 
     def __add_function_to_stack(self, object_name, level, tag_name):
+
         self.function_stack.append(
             (
                 {

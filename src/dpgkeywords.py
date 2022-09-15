@@ -1,5 +1,5 @@
 # THIS FILE WAS GENERATED
-# --------------COMPONENTS--------------[194]
+# --------------COMPONENTS--------------[197]
 
 _2d_histogram_series = "_2d_histogram_series"
 _3d_slider = "_3d_slider"
@@ -195,8 +195,11 @@ draw_triangle = "draw_triangle"
 get_drawing_mouse_pos = "get_drawing_mouse_pos"
 load_image = "load_image"
 load_init_file = "load_init_file"
+dynamic_image = "dynamic_image"
+raw_image = "raw_image"
+static_image = "static_image"
 
-# --------------PARAMETERS--------------[360]
+# --------------PARAMETERS--------------[361]
 
 x = "x"
 y = "y"
@@ -534,7 +537,6 @@ vsync = "vsync"
 always_on_top = "always_on_top"
 decorated = "decorated"
 clear_color = "clear_color"
-kwds = "kwds"
 p1 = "p1"
 p2 = "p2"
 p3 = "p3"
@@ -547,6 +549,7 @@ uv1 = "uv1"
 uv2 = "uv2"
 uv3 = "uv3"
 uv4 = "uv4"
+kwds = "kwds"
 points = "points"
 closed = "closed"
 color_upper_left = "color_upper_left"
@@ -558,6 +561,7 @@ rounding = "rounding"
 text = "text"
 gamma = "gamma"
 gamma_scale_factor = "gamma_scale_factor"
+file_path = "file_path"
 
 component_parameter_relations = {
     _2d_histogram_series: [
@@ -1229,7 +1233,17 @@ component_parameter_relations = {
         show_label,
         vertical,
     ],
-    drag_payload: [kwds],
+    drag_payload: [
+        label,
+        user_data,
+        use_internal_label,
+        tag,
+        parent,
+        show,
+        drag_data,
+        drop_data,
+        payload_type,
+    ],
     drag_point: [
         label,
         user_data,
@@ -3207,6 +3221,9 @@ component_parameter_relations = {
     get_drawing_mouse_pos: [],
     load_image: [file, gamma, gamma_scale_factor],
     load_init_file: [],
+    dynamic_image: [file_path],
+    raw_image: [file_path],
+    static_image: [file_path],
 }
 __all__ = [
     "_2d_histogram_series",
@@ -3403,6 +3420,9 @@ __all__ = [
     "get_drawing_mouse_pos",
     "load_image",
     "load_init_file",
+    "dynamic_image",
+    "raw_image",
+    "static_image",
     "x",
     "y",
     "label",
@@ -3739,7 +3759,6 @@ __all__ = [
     "always_on_top",
     "decorated",
     "clear_color",
-    "kwds",
     "p1",
     "p2",
     "p3",
@@ -3752,6 +3771,7 @@ __all__ = [
     "uv2",
     "uv3",
     "uv4",
+    "kwds",
     "points",
     "closed",
     "color_upper_left",
@@ -3763,4 +3783,5 @@ __all__ = [
     "text",
     "gamma",
     "gamma_scale_factor",
+    "file_path",
 ]

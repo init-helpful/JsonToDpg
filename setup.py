@@ -7,7 +7,7 @@ setup(
     author="init-helpful",
     author_email="init.helpful@gmail.com",
     url="https://github.com/init-helpful/JsonToDpg",
-    py_modules=["jsontodpg","dpgkeywords",'tokenizer'],
+    py_modules=["jsontodpg", "dpgkeywords", "tokenizer", "dpgextended"],
     install_requires=["dearpygui"],
     package_dir={"": "src"},
 )

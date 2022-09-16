@@ -1,4 +1,4 @@
-from email.mime import image
+
 import dearpygui.dearpygui as dpg
 
 
@@ -17,12 +17,22 @@ def find_texture_registry():
     return texture_registry
 
 
-def update_image(data, image_tag, texture_tag):
-    pass
-
-
 def __non_empty(dictionary):
     return {k: v for k, v in dictionary.items() if v}
+
+
+def __has_parent(tag):
+    try:
+        return dpg.get_item_parent(tag)
+    except SystemError as e:
+        print(f'{tag}, does not have parent')
+            
+def __delete_if_exists(tag):
+    try:
+        dpg.delete_item(tag)
+    except SystemError as e:
+        print(f'{tag}, could not be deleted')
+
 
 
 def __image(
@@ -33,20 +43,23 @@ def __image(
     data,
     image_parent="",
     texture_function=dpg.add_raw_texture,
+    remove_previous=True
 ):
 
-    if dpg.get_value(image_tag):
+
+    if not image_parent:
+        image_parent = __has_parent(image_tag)
         if not image_parent:
-            image_parent = dpg.get_item_parent(image_tag)
-        dpg.delete_item(texture_tag)
+            image_parent = dpg.last_container()
 
-    elif not image_parent:
-        image_parent = dpg.last_container()
+    if remove_previous:
+        __delete_if_exists(image_tag)
+        __delete_if_exists(texture_tag)
+    else:
+        texture_tag = None
 
-    if dpg.get_value(texture_tag):
-        dpg.delete_item(texture_tag)
-
-    dpg.add_image(
+    try:
+        dpg.add_image(
         **__non_empty(
             {
                 "parent": image_parent,
@@ -57,6 +70,7 @@ def __image(
                             "width": width,
                             "height": height,
                             "default_value": data,
+                            "tag":texture_tag,
                             "parent": find_texture_registry(),
                         }
                     )
@@ -64,9 +78,21 @@ def __image(
             }
         )
     )
+    except SystemError as e:
+        print(e)
+    
+    
 
 
-def update_image(texture_tag, image_tag, image_parent, width, height, data, texture_function=dpg.add_raw_texture):
+def image_from_data_source(
+    texture_tag,
+    image_tag,
+    width,
+    height,
+    data,
+    image_parent="",
+    texture_function=dpg.add_raw_texture,
+):
     __image(
         width=width,
         height=height,
@@ -74,15 +100,15 @@ def update_image(texture_tag, image_tag, image_parent, width, height, data, text
         image_parent=image_parent,
         image_tag=image_tag,
         texture_tag=texture_tag,
+        texture_function=texture_function,
     )
-
 
 
 def image_from_file(
     image_tag, texture_tag, file_path="", texture_function=dpg.add_raw_texture
 ):
 
-    width, height, channels, data = dpg.load_image(file_path)
+    width, height, c, data = dpg.load_image(file_path)
 
     __image(
         width=width,
@@ -90,5 +116,5 @@ def image_from_file(
         data=data,
         image_tag=image_tag,
         texture_tag=texture_tag,
-        texture_function=texture_function
+        texture_function=texture_function,
     )

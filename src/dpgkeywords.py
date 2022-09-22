@@ -195,11 +195,11 @@ draw_triangle = "draw_triangle"
 get_drawing_mouse_pos = "get_drawing_mouse_pos"
 load_image = "load_image"
 load_init_file = "load_init_file"
-dynamic_image = "dynamic_image"
-raw_image = "raw_image"
-static_image = "static_image"
+find_texture_registry = "find_texture_registry"
+image_from_data_source = "image_from_data_source"
+image_from_file = "image_from_file"
 
-# --------------PARAMETERS--------------[361]
+# --------------PARAMETERS--------------[367]
 
 x = "x"
 y = "y"
@@ -561,7 +561,13 @@ rounding = "rounding"
 text = "text"
 gamma = "gamma"
 gamma_scale_factor = "gamma_scale_factor"
+texture_registry = "texture_registry"
+image_tag = "image_tag"
+data = "data"
+image_parent = "image_parent"
+texture_function = "texture_function"
 file_path = "file_path"
+c = "c"
 
 component_parameter_relations = {
     _2d_histogram_series: [
@@ -3221,9 +3227,27 @@ component_parameter_relations = {
     get_drawing_mouse_pos: [],
     load_image: [file, gamma, gamma_scale_factor],
     load_init_file: [],
-    dynamic_image: [file_path],
-    raw_image: [file_path],
-    static_image: [file_path],
+    find_texture_registry: [texture_registry],
+    image_from_data_source: [
+        texture_tag,
+        image_tag,
+        width,
+        height,
+        data,
+        image_parent,
+        texture_function,
+        show
+    ],
+    image_from_file: [
+        image_tag,
+        texture_tag,
+        file_path,
+        texture_function,
+        width,
+        height,
+        data,
+        show
+    ],
 }
 __all__ = [
     "_2d_histogram_series",
@@ -3420,9 +3444,9 @@ __all__ = [
     "get_drawing_mouse_pos",
     "load_image",
     "load_init_file",
-    "dynamic_image",
-    "raw_image",
-    "static_image",
+    "find_texture_registry",
+    "image_from_data_source",
+    "image_from_file",
     "x",
     "y",
     "label",
@@ -3783,5 +3807,10 @@ __all__ = [
     "text",
     "gamma",
     "gamma_scale_factor",
+    "texture_registry",
+    "image_tag",
+    "data",
+    "image_parent",
+    "texture_function",
     "file_path",
 ]

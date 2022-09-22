@@ -35,11 +35,18 @@ def children(obj):
 
 
 class JsonToDpg:
-    def __init__(self, generate_keyword_file_name="", custom_modules=[], custom_functions={}):
+    def __init__(
+        self,
+        generate_keyword_file_name="",
+        custom_modules=[],
+        custom_functions={},
+        use_dpg_extended=True,
+    ):
         self.tokenizer = Tokenizer(
             generate_keyword_file_name=generate_keyword_file_name,
             custom_modules=custom_modules,
             custom_functions=custom_functions,
+            use_dpg_extended=use_dpg_extended,
         )
 
     def __build_and_run(self, json_object):
@@ -47,7 +54,7 @@ class JsonToDpg:
         # Run each function in stack
         # [function[REFERENCE](**function[ARGS]) for function in self.function_stack]
         for function in self.function_stack:
-            
+
             function[REFERENCE](**function[ARGS])
 
     def parse(self, json_object):

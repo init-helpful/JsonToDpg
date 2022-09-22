@@ -47,10 +47,10 @@ class Tokenizer:
         generate_keyword_file_name="",
         custom_modules=[],
         custom_functions={},
-        include_dpg_extended=True,
+        use_dpg_extended=True,
     ):
 
-        # Which parameters can be used with each
+        # Which parameters can be used with each set of parameters
         self.component_parameter_relations = OrderedDict()
         self.components = {}
         self.parameters = []
@@ -62,7 +62,7 @@ class Tokenizer:
             non_altering_filters=DEFAULT_NON_ALTERING_KEYWORD_FILTERS,
         )
 
-        if include_dpg_extended:
+        if use_dpg_extended:
             self.build_keyword_library(dpg_extended)
 
         if generate_keyword_file_name:
@@ -98,7 +98,10 @@ class Tokenizer:
                 return filtered_keyword
 
     def build_keyword_library(
-        self, package, altering_filters=[], non_altering_filters=[],
+        self,
+        package,
+        altering_filters=[],
+        non_altering_filters=[],
     ):
 
         for function_name in dir(package):

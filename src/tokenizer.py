@@ -98,14 +98,11 @@ class Tokenizer:
         altering_filters=[],
         non_altering_filters=[],
     ):
-
         for function_name in dir(package):
             filtered_keyword = self.__filter_keyword(
                 function_name, altering_filters, non_altering_filters
             )
-
             if filtered_keyword:
-
                 filtered_keyword = clean_keyword(filtered_keyword)
                 function_reference = getattr(package, function_name)
                 self.components[filtered_keyword] = function_reference

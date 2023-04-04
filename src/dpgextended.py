@@ -44,8 +44,13 @@ def __image(
     texture_function=dpg.add_raw_texture,
     remove_previous=True,
     show=True,
+    button_callback=None,
+    image_function=dpg.add_image
 ):
 
+    if button_callback:
+        image_function = dpg.add_image_button
+    
     if not image_parent:
         image_parent = __has_parent(image_tag)
         if not image_parent:
@@ -58,12 +63,13 @@ def __image(
         texture_tag = None
 
     try:
-        dpg.add_image(
+        image_function(
             **__non_empty(
                 {
                     "parent": image_parent,
                     "show": show,
                     "tag": image_tag,
+                    "callback": button_callback,
                     "texture_tag": texture_function(
                         **__non_empty(
                             {
@@ -91,6 +97,7 @@ def image_from_data_source(
     image_parent="",
     texture_function=dpg.add_raw_texture,
     show=True,
+    button_callback=None
 ):
     __image(
         width=width,
@@ -101,6 +108,7 @@ def image_from_data_source(
         texture_tag=texture_tag,
         texture_function=texture_function,
         show=show,
+        button_callback=button_callback
     )
 
 
@@ -111,6 +119,7 @@ def image_from_file(
     image_parent="",
     texture_function=dpg.add_raw_texture,
     show=True,
+    button_callback=None
 ):
 
     width, height, c, data = dpg.load_image(file_path)
@@ -124,4 +133,5 @@ def image_from_file(
         texture_tag=texture_tag,
         texture_function=texture_function,
         show=show,
+        button_callback=button_callback
     )

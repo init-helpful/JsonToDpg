@@ -1,7 +1,7 @@
 
 
-from src.jsontodpg import JsonToDpg
-from src.dpgkeywords import *
+from jsontodpg import JsonToDpg
+from dpgkeywords import *
 
 window_1 = {window: {label: "Example Window 1", width: 400, height: 400, pos: [0, 0]}}
 window_2 = {window: {label: "Example Window 2", width: 400, height: 400}, pos: [400, 0]}
@@ -14,7 +14,7 @@ window_4 = {
 
 main = {
     viewport: {width: 800, height: 800},
-    "t ": [
+    "windows": [
         window_1,
         window_2,
         window_3,
@@ -23,4 +23,6 @@ main = {
 
 }
 
-JsonToDpg().build(main)
+
+j_to_dpg = JsonToDpg() 
+j_to_dpg.start(main)

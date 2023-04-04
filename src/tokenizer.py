@@ -5,8 +5,7 @@ import dpgextended as dpg_extended
 
 DEFAULT_ALTERING_KEYWORD_FILTERS = ["add_", "create_"]
 DEFAULT_NON_ALTERING_KEYWORD_FILTERS = ["draw", "load_"]
-KEYWORD_IGNORE_SUBSTRINGS = ["mv", "__", "set", "dpg"]
-
+KEYWORD_IGNORE_SUBSTRINGS = ["__", "set", "dpg"]
 SHARED_PYTHON_KEYWORDS = ["format"]
 
 
@@ -45,25 +44,21 @@ class Tokenizer:
     def __init__(
         self,
         generate_keyword_file_name="",
-        custom_modules=[],
-        custom_functions={},
         use_dpg_extended=True,
     ):
-
-        # Which parameters can be used with each set of parameters
         self.component_parameter_relations = OrderedDict()
         self.components = {}
         self.parameters = []
-        self.custom_functions = {}
-        # ---------------------------
+        
+
+        if use_dpg_extended:
+            self.build_keyword_library(dpg_extended)
+
         self.build_keyword_library(
             dpg,
             altering_filters=DEFAULT_ALTERING_KEYWORD_FILTERS,
             non_altering_filters=DEFAULT_NON_ALTERING_KEYWORD_FILTERS,
         )
-
-        if use_dpg_extended:
-            self.build_keyword_library(dpg_extended)
 
         if generate_keyword_file_name:
             self.write_to_file(generate_keyword_file_name)

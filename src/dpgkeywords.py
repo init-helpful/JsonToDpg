@@ -1,6 +1,9 @@
 # THIS FILE WAS GENERATED
-# --------------COMPONENTS--------------[197]
+# --------------COMPONENTS--------------[198]
 
+find_texture_registry = "find_texture_registry"
+image_from_data_source = "image_from_data_source"
+image_from_file = "image_from_file"
 _2d_histogram_series = "_2d_histogram_series"
 _3d_slider = "_3d_slider"
 activated_handler = "activated_handler"
@@ -84,6 +87,7 @@ item_active_handler = "item_active_handler"
 item_clicked_handler = "item_clicked_handler"
 item_deactivated_after_edit_handler = "item_deactivated_after_edit_handler"
 item_deactivated_handler = "item_deactivated_handler"
+item_double_clicked_handler = "item_double_clicked_handler"
 item_edited_handler = "item_edited_handler"
 item_focus_handler = "item_focus_handler"
 item_handler_registry = "item_handler_registry"
@@ -195,12 +199,21 @@ draw_triangle = "draw_triangle"
 get_drawing_mouse_pos = "get_drawing_mouse_pos"
 load_image = "load_image"
 load_init_file = "load_init_file"
-find_texture_registry = "find_texture_registry"
-image_from_data_source = "image_from_data_source"
-image_from_file = "image_from_file"
 
-# --------------PARAMETERS--------------[367]
+# --------------PARAMETERS--------------[373]
 
+texture_registry = "texture_registry"
+texture_tag = "texture_tag"
+image_tag = "image_tag"
+width = "width"
+height = "height"
+data = "data"
+image_parent = "image_parent"
+texture_function = "texture_function"
+show = "show"
+button_callback = "button_callback"
+file_path = "file_path"
+c = "c"
 x = "x"
 y = "y"
 label = "label"
@@ -210,7 +223,6 @@ tag = "tag"
 parent = "parent"
 before = "before"
 source = "source"
-show = "show"
 xbins = "xbins"
 ybins = "ybins"
 xmin_range = "xmin_range"
@@ -219,8 +231,6 @@ ymin_range = "ymin_range"
 ymax_range = "ymax_range"
 density = "density"
 outliers = "outliers"
-width = "width"
-height = "height"
 indent = "indent"
 payload_type = "payload_type"
 callback = "callback"
@@ -330,6 +340,7 @@ modal = "modal"
 directory_selector = "directory_selector"
 min_size = "min_size"
 max_size = "max_size"
+cancel_callback = "cancel_callback"
 extension = "extension"
 custom_text = "custom_text"
 file = "file"
@@ -350,7 +361,6 @@ bar_scale = "bar_scale"
 min_range = "min_range"
 max_range = "max_range"
 cumlative = "cumlative"
-texture_tag = "texture_tag"
 tint_color = "tint_color"
 border_color = "border_color"
 uv_min = "uv_min"
@@ -404,6 +414,9 @@ query = "query"
 crosshairs = "crosshairs"
 anti_aliased = "anti_aliased"
 equal_aspects = "equal_aspects"
+use_local_time = "use_local_time"
+use_ISO8601 = "use_ISO8601"
+use_24hour_clock = "use_24hour_clock"
 pan_button = "pan_button"
 pan_mod = "pan_mod"
 fit_button = "fit_button"
@@ -537,6 +550,7 @@ vsync = "vsync"
 always_on_top = "always_on_top"
 decorated = "decorated"
 clear_color = "clear_color"
+disable_close = "disable_close"
 p1 = "p1"
 p2 = "p2"
 p3 = "p3"
@@ -561,15 +575,33 @@ rounding = "rounding"
 text = "text"
 gamma = "gamma"
 gamma_scale_factor = "gamma_scale_factor"
-texture_registry = "texture_registry"
-image_tag = "image_tag"
-data = "data"
-image_parent = "image_parent"
-texture_function = "texture_function"
-file_path = "file_path"
-c = "c"
 
 component_parameter_relations = {
+    find_texture_registry: [texture_registry],
+    image_from_data_source: [
+        texture_tag,
+        image_tag,
+        width,
+        height,
+        data,
+        image_parent,
+        texture_function,
+        show,
+        button_callback,
+    ],
+    image_from_file: [
+        image_tag,
+        texture_tag,
+        file_path,
+        image_parent,
+        texture_function,
+        show,
+        button_callback,
+        width,
+        height,
+        c,
+        data,
+    ],
     _2d_histogram_series: [
         x,
         y,
@@ -1312,6 +1344,7 @@ component_parameter_relations = {
         directory_selector,
         min_size,
         max_size,
+        cancel_callback,
     ],
     file_extension: [
         extension,
@@ -1788,6 +1821,16 @@ component_parameter_relations = {
         callback,
         show,
     ],
+    item_double_clicked_handler: [
+        button,
+        label,
+        user_data,
+        use_internal_label,
+        tag,
+        parent,
+        callback,
+        show,
+    ],
     item_edited_handler: [
         label,
         user_data,
@@ -2184,6 +2227,9 @@ component_parameter_relations = {
         crosshairs,
         anti_aliased,
         equal_aspects,
+        use_local_time,
+        use_ISO8601,
+        use_24hour_clock,
         pan_button,
         pan_mod,
         fit_button,
@@ -3011,6 +3057,7 @@ component_parameter_relations = {
         always_on_top,
         decorated,
         clear_color,
+        disable_close,
     ],
     draw_arrow: [
         p1,
@@ -3227,29 +3274,11 @@ component_parameter_relations = {
     get_drawing_mouse_pos: [],
     load_image: [file, gamma, gamma_scale_factor],
     load_init_file: [],
-    find_texture_registry: [texture_registry],
-    image_from_data_source: [
-        texture_tag,
-        image_tag,
-        width,
-        height,
-        data,
-        image_parent,
-        texture_function,
-        show
-    ],
-    image_from_file: [
-        image_tag,
-        texture_tag,
-        file_path,
-        texture_function,
-        width,
-        height,
-        data,
-        show
-    ],
 }
 __all__ = [
+    "find_texture_registry",
+    "image_from_data_source",
+    "image_from_file",
     "_2d_histogram_series",
     "_3d_slider",
     "activated_handler",
@@ -3333,6 +3362,7 @@ __all__ = [
     "item_clicked_handler",
     "item_deactivated_after_edit_handler",
     "item_deactivated_handler",
+    "item_double_clicked_handler",
     "item_edited_handler",
     "item_focus_handler",
     "item_handler_registry",
@@ -3444,9 +3474,18 @@ __all__ = [
     "get_drawing_mouse_pos",
     "load_image",
     "load_init_file",
-    "find_texture_registry",
-    "image_from_data_source",
-    "image_from_file",
+    "texture_registry",
+    "texture_tag",
+    "image_tag",
+    "width",
+    "height",
+    "data",
+    "image_parent",
+    "texture_function",
+    "show",
+    "button_callback",
+    "file_path",
+    "c",
     "x",
     "y",
     "label",
@@ -3456,7 +3495,6 @@ __all__ = [
     "parent",
     "before",
     "source",
-    "show",
     "xbins",
     "ybins",
     "xmin_range",
@@ -3465,8 +3503,6 @@ __all__ = [
     "ymax_range",
     "density",
     "outliers",
-    "width",
-    "height",
     "indent",
     "payload_type",
     "callback",
@@ -3576,6 +3612,7 @@ __all__ = [
     "directory_selector",
     "min_size",
     "max_size",
+    "cancel_callback",
     "extension",
     "custom_text",
     "file",
@@ -3596,7 +3633,6 @@ __all__ = [
     "min_range",
     "max_range",
     "cumlative",
-    "texture_tag",
     "tint_color",
     "border_color",
     "uv_min",
@@ -3650,6 +3686,9 @@ __all__ = [
     "crosshairs",
     "anti_aliased",
     "equal_aspects",
+    "use_local_time",
+    "use_ISO8601",
+    "use_24hour_clock",
     "pan_button",
     "pan_mod",
     "fit_button",
@@ -3783,6 +3822,7 @@ __all__ = [
     "always_on_top",
     "decorated",
     "clear_color",
+    "disable_close",
     "p1",
     "p2",
     "p3",
@@ -3807,10 +3847,4 @@ __all__ = [
     "text",
     "gamma",
     "gamma_scale_factor",
-    "texture_registry",
-    "image_tag",
-    "data",
-    "image_parent",
-    "texture_function",
-    "file_path",
 ]

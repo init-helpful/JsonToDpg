@@ -38,33 +38,35 @@ class JsonToDpg:
     def __init__(
         self,
         generate_keyword_file_name="",
-        custom_modules=[],
-        custom_functions={},
         use_dpg_extended=True,
     ):
+        self.parse_history = []
+        
         self.tokenizer = Tokenizer(
             generate_keyword_file_name=generate_keyword_file_name,
-            custom_modules=custom_modules,
-            custom_functions=custom_functions,
             use_dpg_extended=use_dpg_extended,
         )
 
     def __build_and_run(self, json_object):
         self.build_function_stack(json_object)
-        # Run each function in stack
-        # [function[REFERENCE](**function[ARGS]) for function in self.function_stack]
-        for function in self.function_stack:
 
+        for function in self.function_stack:
+            # print(function)
             function[REFERENCE](**function[ARGS])
 
     def parse(self, json_object):
-        dpg.create_context()
+        self.parse_history.append(json_object)
         self.__build_and_run(json_object)
+    
+    def start(self,json_object):
+        dpg.create_context()
+        self.parse(json_object)
         dpg.setup_dearpygui()
         dpg.show_viewport()
         dpg.start_dearpygui()
         dpg.destroy_context()
-
+    
+        
     def get_parent(self, current_level):
         reverse_call_stack = self.function_stack[::-1]
         for i in range(len(reverse_call_stack)):
@@ -90,6 +92,7 @@ class JsonToDpg:
 
             # Is Recognized Function
             if object_name in self.tokenizer.components:
+                
                 tag_name = f"{len(self.function_stack)}-{object_name}"
                 self.__add_function_to_stack(object_name, level, tag_name)
                 self.__assign_parent_and_tag(object_name, level, tag_name)

@@ -1,7 +1,9 @@
+from testsetup import setup_pathing
 
+setup_pathing()
 
-from jsontodpg import JsonToDpg
 from dpgkeywords import *
+from jsontodpg import JsonToDpg
 
 window_1 = {window: {label: "Example Window 1", width: 400, height: 400, pos: [0, 0]}}
 window_2 = {window: {label: "Example Window 2", width: 400, height: 400}, pos: [400, 0]}

@@ -1,5 +1,5 @@
 # THIS FILE WAS GENERATED
-# --------------COMPONENTS--------------[198]
+# --------------COMPONENTS--------------[200]
 
 find_texture_registry = "find_texture_registry"
 image_from_data_source = "image_from_data_source"
@@ -55,6 +55,7 @@ edited_handler = "edited_handler"
 error_series = "error_series"
 file_dialog = "file_dialog"
 file_extension = "file_extension"
+filter_set = "filter_set"
 float4_value = "float4_value"
 float_value = "float_value"
 float_vect_value = "float_vect_value"
@@ -199,6 +200,7 @@ draw_triangle = "draw_triangle"
 get_drawing_mouse_pos = "get_drawing_mouse_pos"
 load_image = "load_image"
 load_init_file = "load_init_file"
+set_item_payload_type = "set_item_payload_type"
 
 # --------------PARAMETERS--------------[373]
 
@@ -1358,6 +1360,18 @@ component_parameter_relations = {
         before,
         custom_text,
         color,
+    ],
+    filter_set: [
+        label,
+        user_data,
+        use_internal_label,
+        tag,
+        width,
+        indent,
+        parent,
+        before,
+        show,
+        delay_search,
     ],
     float4_value: [
         label,
@@ -3274,6 +3288,7 @@ component_parameter_relations = {
     get_drawing_mouse_pos: [],
     load_image: [file, gamma, gamma_scale_factor],
     load_init_file: [],
+    set_item_payload_type: [item, payload_type],
 }
 __all__ = [
     "find_texture_registry",
@@ -3330,6 +3345,7 @@ __all__ = [
     "error_series",
     "file_dialog",
     "file_extension",
+    "filter_set",
     "float4_value",
     "float_value",
     "float_vect_value",
@@ -3474,6 +3490,7 @@ __all__ = [
     "get_drawing_mouse_pos",
     "load_image",
     "load_init_file",
+    "set_item_payload_type",
     "texture_registry",
     "texture_tag",
     "image_tag",

@@ -5,7 +5,7 @@ import dpgextended as dpg_extended
 
 DEFAULT_ALTERING_KEYWORD_FILTERS = ["add_", "create_"]
 DEFAULT_NON_ALTERING_KEYWORD_FILTERS = ["draw", "load_"]
-KEYWORD_IGNORE_SUBSTRINGS = ["__", "set", "dpg"]
+KEYWORD_IGNORE_SUBSTRINGS = ["__", "dpg"]
 SHARED_PYTHON_KEYWORDS = ["format"]
 
 
@@ -84,7 +84,6 @@ class Tokenizer:
                 function_name, altering_filters, return_difference=True
             )
             if filtered_keyword:
-
                 return filtered_keyword
 
         if non_altering_filters:

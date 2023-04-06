@@ -49,7 +49,6 @@ class Tokenizer:
         self.component_parameter_relations = OrderedDict()
         self.components = {}
         self.parameters = []
-        
 
         if use_dpg_extended:
             self.build_keyword_library(dpg_extended)

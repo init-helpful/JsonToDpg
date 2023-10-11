@@ -1,7 +1,7 @@
 from tokenizer import Tokenizer
 from dpgkeywords import *
 import dearpygui.dearpygui as dpg
-from threading import Thread
+# from threading import Thread
 
 FUNCTION_NAME = "name"
 REFERENCE = "function reference"
@@ -11,10 +11,6 @@ PARENT = "parent"
 TAG = "tag"
 
 PARENT_IGNORE_LIST = [viewport, input_text]
-
-
-
-
 
 
 def children(obj):
@@ -41,17 +37,25 @@ def children(obj):
     ]
 
 
+
 class AsyncFunction:
-    def __init__(self, interval, function_reference, end_condition=None, cycles=0):
+    def __init__(
+        self,
+        interval,
+        function_reference,
+        end_condition,
+        pause_condition,
+        cycles=0,
+    ):
         self.interval = interval
         self.function_reference = function_reference
         self.cycles = cycles
         self.times_performed = 0
-        self.end_condition = end_condition
+        self.end_condition = end_condition if end_condition else lambda : False
+        self.pause_condition = pause_condition if pause_condition else lambda : False
 
     def run(self):
         self.function_reference()
-        
 
 
 class JsonToDpg:
@@ -70,15 +74,22 @@ class JsonToDpg:
             generate_keyword_file_name=generate_keyword_file_name,
             use_dpg_extended=use_dpg_extended,
         )
-        self.canceled_asycn_functions = [] # Store for funcitons that have been canceled
+        self.canceled_asycn_functions = (
+            []
+        )  # Store for funcitons that have been canceled
+        self.__is_debug(debug)
+
+    def __is_debug(self, debug):
+        if debug:
+            dpg.show_metrics()
 
     def add_async_function(
-        self, interval, function, end_condition=None, num_cycles=0
+        self, interval, function, end_condition=None, pause_condition=None, num_cycles=0
     ):
         if not interval in self.async_functions:
             self.async_functions[interval] = []
         self.async_functions[interval].append(
-            AsyncFunction(interval, function, end_condition, num_cycles)
+            AsyncFunction(interval, function, end_condition,pause_condition, num_cycles)
         )
 
     def __build_and_run(self, json_object):
@@ -117,50 +128,27 @@ class JsonToDpg:
         for interval_and_index in self.canceled_asycn_functions:
             del self.async_functions[interval_and_index[0]][interval_and_index[1]]
 
-    
-    def __run_async_functions(self,ticks):
+    def __run_async_functions(self, ticks):
         self.__remove_canceled_async_functions()
         self.canceled_asycn_functions = []
         for interval, function_set in self.async_functions.items():
-                
-                
-                if ticks % interval == 0:
-                    for function_index, function_to_perform in enumerate(function_set):
-                        run_this = True
+            if ticks % interval == 0:
+                for function_index, function in enumerate(function_set):
+                    if function.end_condition() or (function.cycles and function.times_performed >= function.cycles):
+                        self.canceled_asycn_functions.append([interval, function_index])
+                    if not function.pause_condition():
+                        function.run()
+                    function.times_performed += 1
 
-                        if (
-                            function_to_perform.end_condition
-                            and function_to_perform.end_condition()
-                        ):
-                            run_this = False
-
-                        if (
-                            function_to_perform.cycles
-                            and function_to_perform.times_performed
-                            >= function_to_perform.cycles
-                        ):
-                            run_this = False
-
-                        if run_this:
-                            
-                            function_to_perform.run()
-                            function_to_perform.times_performed += 1
-                        else:
-                            self.canceled_asycn_functions.append(
-                                [interval, function_index]
-                            )
-
-    
     def __start_async_loop(self):
         ticks = 0
-  
 
         while dpg.is_dearpygui_running():
-            
             ticks += 1
             self.dpg.render_dearpygui_frame()
-            Thread(target=self.__run_async_functions, args=[ticks]).start()
-            
+            self.__run_async_functions(ticks)
+            # Thread(target=self.__run_async_functions, args=[ticks]).start()
+
         dpg.stop_dearpygui()
 
     def start(self, json_object):

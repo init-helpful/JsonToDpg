@@ -1,7 +1,6 @@
 from tokenizer import Tokenizer
 from dpgkeywords import *
 import dearpygui.dearpygui as dpg
-
 # from threading import Thread
 
 FUNCTION_NAME = "name"
@@ -38,6 +37,7 @@ def children(obj):
     ]
 
 
+
 class AsyncFunction:
     def __init__(
         self,
@@ -51,8 +51,8 @@ class AsyncFunction:
         self.function_reference = function_reference
         self.cycles = cycles
         self.times_performed = 0
-        self.end_condition = end_condition if end_condition else lambda: False
-        self.pause_condition = pause_condition if pause_condition else lambda: False
+        self.end_condition = end_condition if end_condition else lambda : False
+        self.pause_condition = pause_condition if pause_condition else lambda : False
 
     def run(self):
         self.function_reference()
@@ -89,9 +89,7 @@ class JsonToDpg:
         if not interval in self.async_functions:
             self.async_functions[interval] = []
         self.async_functions[interval].append(
-            AsyncFunction(
-                interval, function, end_condition, pause_condition, num_cycles
-            )
+            AsyncFunction(interval, function, end_condition,pause_condition, num_cycles)
         )
 
     def __build_and_run(self, json_object):
@@ -136,9 +134,7 @@ class JsonToDpg:
         for interval, function_set in self.async_functions.items():
             if ticks % interval == 0:
                 for function_index, function in enumerate(function_set):
-                    if function.end_condition() or (
-                        function.cycles and function.times_performed >= function.cycles
-                    ):
+                    if function.end_condition() or (function.cycles and function.times_performed >= function.cycles):
                         self.canceled_asycn_functions.append([interval, function_index])
                     if not function.pause_condition():
                         function.run()

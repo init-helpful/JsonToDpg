@@ -10,6 +10,7 @@ ARGS = "args"
 LEVEL = "level"
 PARENT = "parent"
 TAG = "tag"
+MAX_TICK = 86400 # 24 Hours In Seconds
 
 PARENT_IGNORE_LIST = [viewport, input_text]
 
@@ -60,6 +61,8 @@ class JsonToDpg:
             []
         )  # Store for funcitons that have been canceled
         self.__is_debug(debug)
+        self.reversed_stack = []
+
 
     def __is_debug(self, debug):
         if debug:
@@ -83,21 +86,36 @@ class JsonToDpg:
             function[REFERENCE](**function[ARGS])
 
     def object_already_exists(self, d):
+        existing_tags = set(dpg.get_aliases())
+        
+        def check_item(item):
+            if item in existing_tags:
+                self.dpg.show_item(item)
+                self.dpg.focus_item(item)
+                return True
+            
+            if isinstance(item, dict):
+                for value in item.values():
+                    if check_item(value):
+                        return True
+            elif isinstance(item, list):
+                for subitem in item:
+                    if check_item(subitem):
+                        return True
+            
+            return False
+        
         if isinstance(d, dict):
             for value in d.values():
-                if value in self.existing_tags:
-                    self.dpg.show_item(value)
-                    self.dpg.focus_item(value)
+                if check_item(value):
                     return True
-                if isinstance(value, (dict, list)):
-                    return self.object_already_exists(value)
-
         elif isinstance(d, list):
             for item in d:
-                if isinstance(item, (dict, list)):
-                    return self.object_already_exists(item)
-
+                if check_item(item):
+                    return True
+        
         return False
+
 
     def parse(self, json_object, check_for_existing=False):
         self.existing_tags = self.dpg.get_aliases()
@@ -130,7 +148,8 @@ class JsonToDpg:
             self.dpg.render_dearpygui_frame()
             self.__run_async_functions(ticks)
             # Thread(target=self.__run_async_functions, args=[ticks]).start()
-
+            if ticks > MAX_TICK:
+                ticks = 0
         dpg.stop_dearpygui()
 
     def start(self, json_object):
@@ -142,16 +161,22 @@ class JsonToDpg:
         self.__start_async_loop()
         dpg.destroy_context()
 
-    def get_parent(self, current_level):
-        reverse_call_stack = self.function_stack[::-1]
-        for i in range(len(reverse_call_stack)):
-            last_item = reverse_call_stack[i]
-            if (
-                last_item[LEVEL] < current_level
-                and not last_item[FUNCTION_NAME] in PARENT_IGNORE_LIST
-            ):
-                return last_item[ARGS][TAG]
-        return ""
+    def _reverse_stack(self):
+        self.reversed_stack = reversed(self.function_stack)
+
+    def get_parent(self, current_level, stack=None):
+        if not stack:
+            stack = self.function_stack
+        self._reverse_stack()
+        
+        try:
+            return next(
+                item[TAG] 
+                for item in self.reversed_stack 
+                if item[LEVEL] < current_level and item[FUNCTION_NAME] not in PARENT_IGNORE_LIST
+            )
+        except StopIteration:
+            return ""
 
     def build_function_stack(self, _object, level=0):
         # Reset call stack if somehow there is residual calls

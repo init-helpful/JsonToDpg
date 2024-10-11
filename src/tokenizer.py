@@ -1,6 +1,5 @@
-import dearpygui.dearpygui as dpg
+# import dearpygui.dearpygui as dpg
 from collections import OrderedDict
-import dpgextended as dpg_extended
 from utils import *
 
 DEFAULT_ALTERING_KEYWORD_FILTERS = ["add_", "create_"]
@@ -10,22 +9,19 @@ KEYWORD_IGNORE_SUBSTRINGS = ["__", "dpg"]
 class Tokenizer:
     def __init__(
         self,
-        generate_keyword_file_name="",
-        use_dpg_extended=True,
+        dpg,
+        generate_keyword_file_name="", #dpgkeywords
+        plugins = []
     ):
+        
         self.component_parameter_relations = OrderedDict()
         self.components = {}
         self.parameters = []
+        self.plugins = {}
 
-        if use_dpg_extended:
-            self.build_keyword_library(dpg_extended)
-
-        self.build_keyword_library(
-            dpg,
-            altering_filters=DEFAULT_ALTERING_KEYWORD_FILTERS,
-            non_altering_filters=DEFAULT_NON_ALTERING_KEYWORD_FILTERS,
-        )
-
+        self.build_keyword_library(dpg)
+        self.add_plugins(plugins)
+            
         if generate_keyword_file_name:
             self.write_to_file(generate_keyword_file_name)
 
@@ -60,8 +56,8 @@ class Tokenizer:
     def build_keyword_library(
         self,
         package,
-        altering_filters=[],
-        non_altering_filters=[],
+        altering_filters=DEFAULT_ALTERING_KEYWORD_FILTERS,
+        non_altering_filters=DEFAULT_NON_ALTERING_KEYWORD_FILTERS,
     ):
         for function_name in dir(package):
             filtered_keyword = self.__filter_keyword(
@@ -86,6 +82,30 @@ class Tokenizer:
                 ]
 
                 self.component_parameter_relations[filtered_keyword] = params
+        
+
+
+    def add_plugins(self, plugins):
+        for plugin in plugins:
+            if callable(plugin):
+            
+                instance = plugin()
+                self.plugins[plugin.__name__] = instance
+                for func_name in dir(instance):
+                    if callable(getattr(instance, func_name)) and not func_name.startswith('_'):
+                        func_ref = getattr(instance, func_name)
+                        full_func_name = f'{plugin.__name__.lower()}_{func_name.lower()}'
+                        self.components[full_func_name] = func_ref
+                        
+                        # Add parameters for the function
+                        params = [param for param in func_ref.__code__.co_varnames if param != 'self']
+                        self.parameters.extend(params)
+                        
+                        # Update component_parameter_relations
+                        self.component_parameter_relations[full_func_name] = params
+            else:
+                self.build_keyword_library(plugin)
+
 
     def write_to_file(self, file_name):
         string = "#THIS FILE WAS GENERATED\n"

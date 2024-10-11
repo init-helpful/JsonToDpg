@@ -1,16 +1,20 @@
 from tokenizer import Tokenizer
 from asyncfunction import AsyncFunction
 from dpgkeywords import *
+from model import Model
+from controller import Controller
 import dearpygui.dearpygui as dpg
+import dpgextended as dpg_extended
 # from threading import Thread
 
 FUNCTION_NAME = "name"
 REFERENCE = "function reference"
 ARGS = "args"
+IS_PLUGIN = "is_plugin"
 LEVEL = "level"
 PARENT = "parent"
 TAG = "tag"
-MAX_TICK = 86400 # 24 Hours In Seconds
+MAX_TICK = 86400  # 24 Hours In Seconds
 
 PARENT_IGNORE_LIST = [viewport, input_text]
 
@@ -39,30 +43,29 @@ def children(obj):
     ]
 
 
-
-
 class JsonToDpg:
     def __init__(
         self,
         generate_keyword_file_name="",
-        use_dpg_extended=True,
         debug=False,
         async_functions={},
+        plugins=[],
     ):
         self.dpg = dpg
         self.parse_history = []
         self.debug = debug
         self.async_functions = async_functions
         self.tokenizer = Tokenizer(
+            dpg=self.dpg,
             generate_keyword_file_name=generate_keyword_file_name,
-            use_dpg_extended=use_dpg_extended,
+            plugins=[dpg_extended] + (plugins if plugins else []),
         )
         self.canceled_asycn_functions = (
             []
         )  # Store for funcitons that have been canceled
         self.__is_debug(debug)
         self.reversed_stack = []
-
+        self.controller = Controller(self.dpg)
 
     def __is_debug(self, debug):
         if debug:
@@ -74,26 +77,32 @@ class JsonToDpg:
         if not interval in self.async_functions:
             self.async_functions[interval] = []
         self.async_functions[interval].append(
-            AsyncFunction(interval, function, end_condition,pause_condition, num_cycles)
+            AsyncFunction(
+                interval, function, end_condition, pause_condition, num_cycles
+            )
         )
 
     def __build_and_run(self, json_object):
         self.build_function_stack(json_object)
 
         for function in self.function_stack:
+
             if self.debug:
-                print(function)
+                print(f"Current function: {function[FUNCTION_NAME]}")
+                print(f"Arguments: {function[ARGS]}")
+                print()
+
             function[REFERENCE](**function[ARGS])
 
     def object_already_exists(self, d):
         existing_tags = set(dpg.get_aliases())
-        
+
         def check_item(item):
             if item in existing_tags:
                 self.dpg.show_item(item)
                 self.dpg.focus_item(item)
                 return True
-            
+
             if isinstance(item, dict):
                 for value in item.values():
                     if check_item(value):
@@ -102,9 +111,9 @@ class JsonToDpg:
                 for subitem in item:
                     if check_item(subitem):
                         return True
-            
+
             return False
-        
+
         if isinstance(d, dict):
             for value in d.values():
                 if check_item(value):
@@ -113,9 +122,8 @@ class JsonToDpg:
             for item in d:
                 if check_item(item):
                     return True
-        
-        return False
 
+        return False
 
     def parse(self, json_object, check_for_existing=False):
         self.existing_tags = self.dpg.get_aliases()
@@ -134,7 +142,9 @@ class JsonToDpg:
         for interval, function_set in self.async_functions.items():
             if ticks % interval == 0:
                 for function_index, function in enumerate(function_set):
-                    if function.end_condition() or (function.cycles and function.times_performed >= function.cycles):
+                    if function.end_condition() or (
+                        function.cycles and function.times_performed >= function.cycles
+                    ):
                         self.canceled_asycn_functions.append([interval, function_index])
                     if not function.pause_condition():
                         function.run()
@@ -168,12 +178,13 @@ class JsonToDpg:
         if not stack:
             stack = self.function_stack
         self._reverse_stack()
-        
+
         try:
             return next(
-                item[TAG] 
-                for item in self.reversed_stack 
-                if item[LEVEL] < current_level and item[FUNCTION_NAME] not in PARENT_IGNORE_LIST
+                item[TAG]
+                for item in self.reversed_stack
+                if item[LEVEL] < current_level
+                and item[FUNCTION_NAME] not in PARENT_IGNORE_LIST
             )
         except StopIteration:
             return ""
@@ -192,6 +203,7 @@ class JsonToDpg:
             # Is Recognized Function
             if object_name in self.tokenizer.components:
                 tag_name = f"{len(self.parse_history)}-{len(self.function_stack)}-{object_name}"
+
                 self.__add_function_to_stack(object_name, level, tag_name)
                 self.__assign_parent_and_tag(object_name, level, tag_name)
 

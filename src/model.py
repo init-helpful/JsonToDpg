@@ -1,6 +1,6 @@
 import polars as pl
 
-class Storage:
+class Model:
     def __init__(self):
         self.storage = {'flat': {}, 'nested': {}}
 
@@ -37,8 +37,10 @@ class Storage:
         Returns:
             Any: The value associated with the key path, or None if not found.
         """
+        
         keys = self._split_key_path(key_path)
         if len(keys) == 1:
+            print(self.storage)
             # Flat storage lookup
             return self.storage['flat'].get(keys[0])
         else:

@@ -1,6 +1,6 @@
 # import dearpygui.dearpygui as dpg
 from collections import OrderedDict
-from utils import *
+from jtodpgutils import *
 
 DEFAULT_ALTERING_KEYWORD_FILTERS = ["add_", "create_"]
 DEFAULT_NON_ALTERING_KEYWORD_FILTERS = ["draw", "load_"]

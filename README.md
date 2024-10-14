@@ -1,83 +1,79 @@
-# jsontodpg
+# JSON to Dear PyGui (jsontodpg)
 
+JSON to Dear PyGui (jsontodpg) is a Python library that allows you to create Dear PyGui user interfaces using JSON-like structures. It provides a simple way to define UI components and layouts using nested dictionaries, making it easier to manage complex interfaces and separate UI definition from application logic.
 
-## The Rundown
+## Key Features
 
-Build DearPyGui apps using json(ish) objects. It uses python dictionaries more than raw json.
+- Convert JSON-like structures to Dear PyGui UI components
+- Support for asynchronous functions and event handling
+- Built-in controller for managing UI state and interactions
+- Plugin system for extending functionality
+- Automatic generation of keyword files for Dear PyGui components
 
-As of dearpygui version 1.7, most ui compoents are working in jsontodpg. Further testing is needed.
+## Installation
 
-
-## Instalation
+To install jsontodpg, run:
 
 ```
 pip install jsontodpg
 ```
 
-## Usage
-#### Viewports (Required Entry Point)
+## Usage Example
+
+Here's a simple example of how to use jsontodpg:
 
 ```python
-#.py File
-
 from jsontodpg import JsonToDpg
 from dpgkeywords import *
 
-main = {viewport: {width: 800, height: 800}}
-
-JsonToDpg().parse(main)
-```
-
-#### Adding Windows
-
-```python
-#.py File
-
-from jsontodpg import JsonToDpg
-from dpgkeywords import *
+j_to_dpg = JsonToDpg(generate_keyword_file_name=False, debug=False)
+c = j_to_dpg.controller
 
 main = {
-    viewport: {width: 800, height: 800},
-    "You can put anything you want as nested object list keys, as long as they are not a dearpygui keyword by them self, e.g window ": [
-        {window: {label: "Example Window 1", width: 400, height: 400, pos: [0, 0]}},
-        {window: {label: "Example Window 2", width: 400, height: 400}, pos: [400, 0]},
-        {window: {label: "Example Window 3", width: 400, height: 400}, pos: [0, 400]},
-        {window: {label: "Example Window 4", width: 400, height: 400}, pos: [400, 400]},
-    ],
+    viewport: {width: 800, height: 600},
+    window: {
+        label: "Example Window",
+        width: 400,
+        height: 300,
+        pos: [200, 150],
+        input_text: {
+            default_value: "Enter some text",
+            tag: "input_to_print"
+        },
+        button: {
+            label: "Submit",
+            callback: lambda: print(c.get_value("input_to_print")),
+        },
+    },
 }
 
-JsonToDpg().parse(main)
+j_to_dpg.start(main)
+
 ```
+This example creates a simple Dear PyGui application with a viewport, a window, an input field, and a button.
+When the button is pressed, the text in the input_field is printed to the console.
 
-or...
+## Advanced Features
 
-```python
-#.py File
+jsontodpg offers several advanced features:
 
-from jsontodpg import JsonToDpg
-from dpgkeywords import *
+1. Asynchronous Functions: You can define asynchronous functions that run at regular intervals.
 
-window_1 = {window: {label: "Example Window 1", width: 400, height: 400, pos: [0, 0]}}
-window_2 = {window: {label: "Example Window 2", width: 400, height: 400}, pos: [400, 0]}
-window_3 = {window: {label: "Example Window 3", width: 400, height: 400}, pos: [0, 400]}
-window_4 = {
-    window: {label: "Example Window 4", width: 400, height: 400},
-    pos: [400, 400],
-}
+2. Controller: The built-in controller allows you to interact with UI components programmatically.
+
+3. Plugins: Extend functionality by adding custom plugins.
+
+4. Keyword Generation: Automatically generate keyword files for Dear PyGui components and custom plugins.
 
 
-main = {
-    viewport: {width: 800, height: 800},
-    "You can put anything you want as nested object list keys, as long as they are not a dearpygui keyword by them self, e.g window ": [
-        window_1,
-        window_2,
-        window_3,
-        window_4,
-    ],
+## Contributing
 
-}
+Contributions are welcome!
 
-JsonToDpg().parse(main)
-```
+## License
 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## Acknowledgments
+
+Special thanks to the Dear PyGui community for their ongoing development and support of the library.

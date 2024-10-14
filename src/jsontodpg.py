@@ -1,7 +1,6 @@
 from tokenizer import Tokenizer
 from asyncfunction import AsyncFunction
 from dpgkeywords import *
-from model import Model
 from controller import Controller
 import dearpygui.dearpygui as dpg
 import dpgextended as dpg_extended
@@ -65,7 +64,7 @@ class JsonToDpg:
         )  # Store for funcitons that have been canceled
         self.__is_debug(debug)
         self.reversed_stack = []
-        self.controller = Controller(self.dpg)
+        self.controller = Controller(self)
 
     def __is_debug(self, debug):
         if debug:

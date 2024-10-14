@@ -6,8 +6,8 @@ from dpgkeywords import *
 from jsontodpg import JsonToDpg
 
 
-def get_data(storage_ref):
-    return storage_ref.get("EXAMPLE")
+j_to_dpg = JsonToDpg("dpgkeywords", debug=True)
+
 
 
 window_1 = {
@@ -42,6 +42,4 @@ main = {
     ],
 }
 
-
-j_to_dpg = JsonToDpg("dpgkeywords", debug=True)
 j_to_dpg.start(main)

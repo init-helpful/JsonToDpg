@@ -6,7 +6,7 @@ from dpgkeywords import *
 from jsontodpg import JsonToDpg
 
 
-j_to_dpg = JsonToDpg("dpgkeywords", debug=True)
+j_to_dpg = JsonToDpg(generate_keyword_file_name=False, debug=True)
 
 
 

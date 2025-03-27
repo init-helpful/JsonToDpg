@@ -3,21 +3,17 @@ import random
 
 setup_pathing()
 
+import plugin
+
 from dpgkeywords import *
 from jsontodpg import JsonToDpg
 
 
-j_to_dpg = JsonToDpg(generate_keyword_file_name="bbb", debug=False)
+j_to_dpg = JsonToDpg(generate_keyword_file_name="test.py",plugins=[plugin] ,debug=False)
 c = j_to_dpg.controller
 
 c.put("default_width", 400)
 c.put("default_height", 400)
-
-
-class ClassPlugin():
-    def __init__(self):
-        self.item
-    
 
 
 def gen_and_store_random_number():
@@ -33,8 +29,9 @@ def get_random_number():
 def windows():
     return [
         {
+            
             window: {
-                # "put": {"default_width": 400, "default_height": 400},
+                "test_func":{},
                 "gen_random_number": c.add_async_function(
                     interval=20, function=gen_and_store_random_number
                 ),

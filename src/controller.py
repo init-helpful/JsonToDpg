@@ -1,9 +1,9 @@
-from store import Store
+
 
 class Controller:
     def __init__(self, jsontodpg):
         self.jsontodpg = jsontodpg
-        self.store = Store()
+        self.model = jsontodpg.model
 
     def hide(self, tag):
         self.jsontodpg.dpg.hide_item(tag)
@@ -40,13 +40,13 @@ class Controller:
     # Model Functions --------------------------------
 
     def store_contains(self, key_path):
-        return self.store.contains(key_path)
+        return self.model.contains(key_path)
 
     def put(self,key_path, value):
-        self.store.put(key_path,value)
+        self.model[key_path]=value
     
     def get(self,key_path):
-        return self.store.get(key_path)
+        return self.model.get(key_path)
         
     # Utils --------------------------------
 

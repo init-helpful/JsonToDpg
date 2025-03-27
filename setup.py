@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name="jsontodpg",
-    version="0.93",
+    version="0.94",
     description="Build DearPyGui user interface with json/python dictionaies",
     author="init-helpful",
     author_email="init.helpful@gmail.com",
@@ -13,10 +13,9 @@ setup(
         "tokenizer",
         "dpgextended",
         "controller",
-        "store",
         "jtodpgutils",
         "asyncfunction"
     ],
-    install_requires=["dearpygui", "polars"],
+    install_requires=["dearpygui"],
     package_dir={"": "src"},
 )

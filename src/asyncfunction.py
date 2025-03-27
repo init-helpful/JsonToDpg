@@ -16,4 +16,5 @@ class AsyncFunction:
         self.pause_condition = pause_condition if pause_condition else lambda : False
 
     def run(self):
+
         self.function_reference()

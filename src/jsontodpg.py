@@ -4,6 +4,7 @@ from dpgkeywords import *
 from controller import Controller
 import dearpygui.dearpygui as dpg
 import dpgextended as dpg_extended
+from model import Model
 # from threading import Thread
 
 FUNCTION_NAME = "name"
@@ -13,7 +14,7 @@ IS_PLUGIN = "is_plugin"
 LEVEL = "level"
 PARENT = "parent"
 TAG = "tag"
-MAX_TICK = 86400  # 24 Hours In Seconds
+MAX_TICK = 86400
 
 PARENT_IGNORE_LIST = [viewport, input_text]
 
@@ -54,6 +55,8 @@ class JsonToDpg:
         self.parse_history = []
         self.debug = debug
         self.async_functions = async_functions
+        self.model = {}
+        self.controller = Controller(self)
         self.tokenizer = Tokenizer(
             dpg=self.dpg,
             generate_keyword_file_name=generate_keyword_file_name,
@@ -64,7 +67,7 @@ class JsonToDpg:
         )  # Store for funcitons that have been canceled
         self.__is_debug(debug)
         self.reversed_stack = []
-        self.controller = Controller(self)
+        
 
     def __is_debug(self, debug):
         if debug:
@@ -91,6 +94,7 @@ class JsonToDpg:
                 print(f"Arguments: {function[ARGS]}")
                 print()
 
+            # print(function[ARGS])
             function[REFERENCE](**function[ARGS])
 
     def object_already_exists(self, d):

@@ -4,7 +4,7 @@ from dpgkeywords import *
 from controller import Controller
 import dearpygui.dearpygui as dpg
 import dpgextended as dpg_extended
-from model import Model
+
 # from threading import Thread
 
 FUNCTION_NAME = "name"

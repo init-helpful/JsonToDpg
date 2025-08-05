@@ -1,86 +1,117 @@
 from tokenizer import Tokenizer
 from asyncfunction import AsyncFunction
-from dpgkeywords import *
 from controller import Controller
 import dearpygui.dearpygui as dpg
 import dpgextended as dpg_extended
-
-# from threading import Thread
+import importlib
 
 FUNCTION_NAME = "name"
 REFERENCE = "function reference"
 ARGS = "args"
-IS_PLUGIN = "is_plugin"
 LEVEL = "level"
 PARENT = "parent"
 TAG = "tag"
 MAX_TICK = 86400
 
-PARENT_IGNORE_LIST = [viewport, input_text]
+PARENT_IGNORE_LIST = ["viewport"]
 
 
-def children(obj):
-    """
-    Iterate through and find child objects from input collection
+class KeywordAccessor:
+    """A helper object that dynamically returns the string name of any attribute requested."""
 
-    Args:
-        obj (tuple,dict,list): the parent object.
-
-    Returns:
-        Children collections of input collection if they are tuple, dict or list.
-    """
-
-    collection_types = {
-        "tuple": lambda obj: obj,
-        "list": lambda obj: obj,
-        "dict": lambda obj: obj.items(),
-    }
-
-    return [
-        item
-        for item in collection_types[type(obj).__name__](obj)
-        if type(item).__name__ in collection_types
-    ]
+    def __getattr__(self, name):
+        return name
 
 
 class JsonToDpg:
     def __init__(
         self,
-        generate_keyword_file_name="",
         debug=False,
         async_functions={},
         plugins=[],
+        auto_generate_keywords=True,  # The new toggle, defaulting to True
     ):
         self.dpg = dpg
         self.parse_history = []
         self.debug = debug
         self.async_functions = async_functions
         self.model = {}
-        self.controller = Controller(self)
+
         self.tokenizer = Tokenizer(
             dpg=self.dpg,
-            generate_keyword_file_name=generate_keyword_file_name,
             plugins=[dpg_extended] + (plugins if plugins else []),
         )
-        self.canceled_asycn_functions = (
-            []
-        )  # Store for funcitons that have been canceled
+
+        self.controller = Controller(self)
+        self.tokenizer.register_controller_methods(self.controller)
+        self._inject_dependencies()
+
+        self.keywords = KeywordAccessor()
+
+        # The file generation is now controlled by the toggle.
+        if auto_generate_keywords:
+            self._check_and_generate_keywords()
+
+        self.canceled_asycn_functions = []
         self.__is_debug(debug)
-        self.reversed_stack = []
-        
+        self.parent_stack = []
+
+    def _check_and_generate_keywords(self, filename="dpgkeywords"):
+        """Checks if the keywords file is missing or outdated and regenerates it."""
+        discovered_keywords = self.tokenizer.all_keywords
+        existing_keywords = set()
+
+        try:
+            module = importlib.import_module(filename)
+            importlib.reload(module)
+            existing_keywords = {
+                name for name in dir(module) if not name.startswith("_")
+            }
+        except ImportError:
+            pass
+
+        if discovered_keywords != existing_keywords:
+            print(f"INFO: dpgkeywords.py is missing or out of date. Regenerating...")
+            self.tokenizer.write_to_file(filename)
+            print(
+                "INFO: Keywords file regenerated successfully. Your IDE will now have code completion."
+            )
+
+    def _inject_dependencies(self):
+        for instance in self.tokenizer.plugin_instances.values():
+            if hasattr(instance, "controller"):
+                instance.controller = self.controller
 
     def __is_debug(self, debug):
         if debug:
             dpg.show_metrics()
 
     def add_async_function(
-        self, interval, function, end_condition=None, pause_condition=None, num_cycles=0
+        self,
+        interval,
+        function,
+        end_condition=None,
+        pause_condition=None,
+        num_cycles=0,
+        name=None,
     ):
+        if isinstance(function, dict):
+            final_function = self._create_callable_for_param(function)
+            if not final_function:
+                return
+        else:
+            final_function = function
+
         if not interval in self.async_functions:
             self.async_functions[interval] = []
         self.async_functions[interval].append(
             AsyncFunction(
-                interval, function, end_condition, pause_condition, num_cycles
+                interval,
+                final_function,
+                end_condition,
+                pause_condition,
+                num_cycles,
+                name,
             )
         )
 
@@ -88,85 +119,48 @@ class JsonToDpg:
         self.build_function_stack(json_object)
 
         for function in self.function_stack:
-
             if self.debug:
                 print(f"Current function: {function[FUNCTION_NAME]}")
                 print(f"Arguments: {function[ARGS]}")
-                print()
-
-            # print(function[ARGS])
             function[REFERENCE](**function[ARGS])
 
-    def object_already_exists(self, d):
-        existing_tags = set(dpg.get_aliases())
-
-        def check_item(item):
-            if item in existing_tags:
-                self.dpg.show_item(item)
-                self.dpg.focus_item(item)
-                return True
-
-            if isinstance(item, dict):
-                for value in item.values():
-                    if check_item(value):
-                        return True
-            elif isinstance(item, list):
-                for subitem in item:
-                    if check_item(subitem):
-                        return True
-
-            return False
-
-        if isinstance(d, dict):
-            for value in d.values():
-                if check_item(value):
-                    return True
-        elif isinstance(d, list):
-            for item in d:
-                if check_item(item):
-                    return True
-
-        return False
-
     def parse(self, json_object, check_for_existing=False):
-        self.existing_tags = self.dpg.get_aliases()
-        if not (check_for_existing and self.object_already_exists(json_object)):
-            self.function_stack = []
-            self.parse_history.append(json_object)
-            self.__build_and_run(json_object)
+        self.function_stack = []
+        self.parent_stack = []
+        self.parse_history.append(json_object)
+        self.__build_and_run(json_object)
 
     def __remove_canceled_async_functions(self):
-        for interval_and_index in self.canceled_asycn_functions:
-            del self.async_functions[interval_and_index[0]][interval_and_index[1]]
+        tasks_to_remove = []
+        for interval, funcs in self.async_functions.items():
+            for i, func in enumerate(funcs):
+                if func.end_condition():
+                    tasks_to_remove.append((interval, i))
+
+        for interval, i in sorted(tasks_to_remove, reverse=True):
+            del self.async_functions[interval][i]
 
     def __run_async_functions(self, ticks):
         self.__remove_canceled_async_functions()
-        self.canceled_asycn_functions = []
+
         for interval, function_set in self.async_functions.items():
             if ticks % interval == 0:
-                for function_index, function in enumerate(function_set):
-                    if function.end_condition() or (
-                        function.cycles and function.times_performed >= function.cycles
-                    ):
-                        self.canceled_asycn_functions.append([interval, function_index])
-                    if not function.pause_condition():
-                        function.run()
-                    function.times_performed += 1
+                for func in list(function_set):
+                    if not func.pause_condition():
+                        func.run()
+                        func.times_performed += 1
 
     def __start_async_loop(self):
         ticks = 0
-
         while dpg.is_dearpygui_running():
             ticks += 1
             self.dpg.render_dearpygui_frame()
             self.__run_async_functions(ticks)
-            # Thread(target=self.__run_async_functions, args=[ticks]).start()
             if ticks > MAX_TICK:
                 ticks = 0
         dpg.stop_dearpygui()
 
     def start(self, json_object):
-        self.function_stack = []
         dpg.create_context()
         self.parse(json_object)
         dpg.setup_dearpygui()
@@ -174,67 +168,120 @@ class JsonToDpg:
         self.__start_async_loop()
         dpg.destroy_context()
 
-    def _reverse_stack(self):
-        self.reversed_stack = reversed(self.function_stack)
+    def _create_and_call_function(self, func_key, call_data):
+        """Finds and executes an imperative setup function."""
+        _, func_ref = self.tokenizer.function_references.get(func_key, (None, None))
+        if func_ref:
+            args, kwargs = self._extract_args_kwargs(call_data)
+            func_ref(*args, **kwargs)
+        else:
+            print(f"Warning: Could not find target function for key: {func_key}")
 
-    def get_parent(self, current_level, stack=None):
-        if not stack:
-            stack = self.function_stack
-        self._reverse_stack()
+    def _create_callable_for_param(self, call_data):
+        """Creates a deferred callable (lambda) for a parameter like 'callback'."""
+        func_key, call_dict = self._get_func_key_from_dict(call_data)
+        if not func_key:
+            return None
 
-        try:
-            return next(
-                item[TAG]
-                for item in self.reversed_stack
-                if item[LEVEL] < current_level
-                and item[FUNCTION_NAME] not in PARENT_IGNORE_LIST
-            )
-        except StopIteration:
-            return ""
+        _, func_ref = self.tokenizer.function_references.get(func_key, (None, None))
+        if func_ref:
+            args, kwargs = self._extract_args_kwargs(call_dict)
+            return lambda: func_ref(*args, **kwargs)
+
+        print(f"Warning: Could not create callable for target: {func_key}")
+        return None
+
+    def _extract_args_kwargs(self, call_data):
+        """Helper to safely extract args and kwargs from different data shapes."""
+        if isinstance(call_data, list):
+            return call_data, {}
+        if isinstance(call_data, dict):
+            args = call_data.get("args", [])
+            kwargs = call_data.get("kwargs", {})
+            return args, kwargs
+        return [], {}
+
+    def _get_func_key_from_dict(self, data_dict):
+        """Finds the function key within a dictionary."""
+        for key, value in data_dict.items():
+            if key in self.tokenizer.function_references:
+                return key, value
+        return None, None
 
     def build_function_stack(self, _object, level=0):
-        # Reset call stack if somehow there is residual calls
-        if level == 0:
-            self.function_stack = []
+        if isinstance(_object, list):
+            for item in _object:
+                self.build_function_stack(item, level)
+            return
 
-        # Find Tuples, Dicts, and Lists in current object
-        children_objects = children(_object)
+        if isinstance(_object, dict):
+            func_key, call_data = self._get_func_key_from_dict(_object)
+            if func_key and len(_object) <= 2:
+                self._create_and_call_function(func_key, _object[func_key])
+                return
 
-        if isinstance(_object, tuple):
-            object_name = _object[0]
+            for key, value in _object.items():
+                self.build_function_stack((str(key), value), level)
+            return
 
-            # Is Recognized Function
-            if object_name in self.tokenizer.components:
-                tag_name = f"{len(self.parse_history)}-{len(self.function_stack)}-{object_name}"
+        if not (isinstance(_object, tuple) and len(_object) == 2):
+            return
 
-                self.__add_function_to_stack(object_name, level, tag_name)
-                self.__assign_parent_and_tag(object_name, level, tag_name)
+        key, value = _object
 
-            # Is Recognized Parameter Of Function
-            elif object_name in self.tokenizer.parameters:
-                self.function_stack[-1][ARGS].update({object_name: _object[1]})
+        if key in self.tokenizer.components:
+            tag_name = f"{len(self.parse_history)}-{len(self.function_stack)}-{key}"
+            current_parent = self.parent_stack[-1] if self.parent_stack else ""
 
-        # Dig into Tuples, Dicts, and Lists. Increment Level. Start Again.
-        for child in children_objects:
-            self.build_function_stack(_object=child, level=level + 1)
+            args = {}
+            valid_params = self.tokenizer.component_parameter_relations.get(key, [])
 
-    def __add_function_to_stack(self, object_name, level, tag_name):
-        self.function_stack.append(
-            (
+            if "parent" in valid_params and current_parent:
+                if key not in PARENT_IGNORE_LIST:
+                    args["parent"] = current_parent
+            if "tag" in valid_params:
+                args["tag"] = tag_name
+
+            self.function_stack.append(
                 {
-                    FUNCTION_NAME: object_name,
-                    REFERENCE: self.tokenizer.components[object_name],
+                    FUNCTION_NAME: key,
+                    REFERENCE: self.tokenizer.components[key],
                     TAG: tag_name,
                     LEVEL: level,
-                    ARGS: {},
+                    ARGS: args,
                 }
             )
-        )
 
-    def __assign_parent_and_tag(self, object_name, level, tag_name):
-        if PARENT in self.tokenizer.component_parameter_relations[object_name]:
-            parent = self.get_parent(level)
-            if parent:
-                self.function_stack[-1][ARGS].update({PARENT: parent})
-        if TAG in self.tokenizer.component_parameter_relations[object_name]:
-            self.function_stack[-1][ARGS].update({TAG: tag_name})
+            self.parent_stack.append(tag_name)
+            if isinstance(value, (dict, list, tuple)):
+                self.build_function_stack(value, level + 1)
+            self.parent_stack.pop()
+
+        elif key in self.tokenizer.parameters:
+            if self.function_stack:
+                current_component = self.function_stack[-1][FUNCTION_NAME]
+                valid_params = self.tokenizer.component_parameter_relations.get(
+                    current_component, []
+                )
+
+                if key in valid_params:
+                    is_callable_dict = (
+                        isinstance(value, dict)
+                        and self._get_func_key_from_dict(value)[0] is not None
+                    )
+                    final_value = (
+                        self._create_callable_for_param(value)
+                        if is_callable_dict
+                        else value
+                    )
+                    self.function_stack[-1][ARGS][key] = final_value
+
+                if not (
+                    isinstance(value, dict)
+                    and self._get_func_key_from_dict(value)[0] is not None
+                ):
+                    if isinstance(value, (dict, list, tuple)):
+                        self.build_function_stack(value, level)
+        else:
+            if isinstance(value, (dict, list, tuple)):
+                self.build_function_stack(value, level)

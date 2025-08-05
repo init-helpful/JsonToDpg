@@ -1,5 +1,5 @@
-# THIS FILE WAS GENERATED
-# --------------COMPONENTS--------------[197]
+# THIS FILE WAS GENERATED AUTOMATICALLY BY JSONTODPG. DO NOT EDIT.
+# --------------COMPONENTS--------------[196]
 
 _2d_histogram_series = "_2d_histogram_series"
 _3d_slider = "_3d_slider"
@@ -28,6 +28,7 @@ colormap_registry = "colormap_registry"
 colormap_scale = "colormap_scale"
 colormap_slider = "colormap_slider"
 combo = "combo"
+context = "context"
 custom_series = "custom_series"
 date_picker = "date_picker"
 deactivated_after_edit_handler = "deactivated_after_edit_handler"
@@ -43,8 +44,22 @@ drag_intx = "drag_intx"
 drag_line = "drag_line"
 drag_payload = "drag_payload"
 drag_point = "drag_point"
+draw_arrow = "draw_arrow"
+draw_bezier_cubic = "draw_bezier_cubic"
+draw_bezier_quadratic = "draw_bezier_quadratic"
+draw_circle = "draw_circle"
+draw_ellipse = "draw_ellipse"
+draw_image = "draw_image"
+draw_image_quad = "draw_image_quad"
 draw_layer = "draw_layer"
+draw_line = "draw_line"
 draw_node = "draw_node"
+draw_polygon = "draw_polygon"
+draw_polyline = "draw_polyline"
+draw_quad = "draw_quad"
+draw_rectangle = "draw_rectangle"
+draw_text = "draw_text"
+draw_triangle = "draw_triangle"
 drawlist = "drawlist"
 dummy = "dummy"
 dynamic_texture = "dynamic_texture"
@@ -62,6 +77,8 @@ font_chars = "font_chars"
 font_range = "font_range"
 font_range_hint = "font_range_hint"
 font_registry = "font_registry"
+fps_matrix = "fps_matrix"
+get_drawing_mouse_pos = "get_drawing_mouse_pos"
 group = "group"
 handler_registry = "handler_registry"
 heat_series = "heat_series"
@@ -85,7 +102,6 @@ item_active_handler = "item_active_handler"
 item_clicked_handler = "item_clicked_handler"
 item_deactivated_after_edit_handler = "item_deactivated_after_edit_handler"
 item_deactivated_handler = "item_deactivated_handler"
-item_double_clicked_handler = "item_double_clicked_handler"
 item_edited_handler = "item_edited_handler"
 item_focus_handler = "item_focus_handler"
 item_handler_registry = "item_handler_registry"
@@ -99,7 +115,10 @@ key_release_handler = "key_release_handler"
 knob_float = "knob_float"
 line_series = "line_series"
 listbox = "listbox"
+load_image = "load_image"
+load_init_file = "load_init_file"
 loading_indicator = "loading_indicator"
+lookat_matrix = "lookat_matrix"
 menu = "menu"
 menu_bar = "menu_bar"
 menu_item = "menu_item"
@@ -114,6 +133,8 @@ node = "node"
 node_attribute = "node_attribute"
 node_editor = "node_editor"
 node_link = "node_link"
+orthographic_matrix = "orthographic_matrix"
+perspective_matrix = "perspective_matrix"
 pie_series = "pie_series"
 plot = "plot"
 plot_annotation = "plot_annotation"
@@ -123,11 +144,14 @@ progress_bar = "progress_bar"
 radio_button = "radio_button"
 raw_texture = "raw_texture"
 resize_handler = "resize_handler"
+rotation_matrix = "rotation_matrix"
 same_line = "same_line"
+scale_matrix = "scale_matrix"
 scatter_series = "scatter_series"
 selectable = "selectable"
 separator = "separator"
 series_value = "series_value"
+set_item_payload_type = "set_item_payload_type"
 shade_series = "shade_series"
 simple_plot = "simple_plot"
 slider_double = "slider_double"
@@ -164,414 +188,404 @@ theme_style = "theme_style"
 time_picker = "time_picker"
 toggled_open_handler = "toggled_open_handler"
 tooltip = "tooltip"
+translation_matrix = "translation_matrix"
 tree_node = "tree_node"
 value_registry = "value_registry"
+viewport = "viewport"
 viewport_drawlist = "viewport_drawlist"
 viewport_menu_bar = "viewport_menu_bar"
 visible_handler = "visible_handler"
 vline_series = "vline_series"
 window = "window"
-context = "context"
-fps_matrix = "fps_matrix"
-lookat_matrix = "lookat_matrix"
-orthographic_matrix = "orthographic_matrix"
-perspective_matrix = "perspective_matrix"
-rotation_matrix = "rotation_matrix"
-scale_matrix = "scale_matrix"
-translation_matrix = "translation_matrix"
-viewport = "viewport"
-draw_arrow = "draw_arrow"
-draw_bezier_cubic = "draw_bezier_cubic"
-draw_bezier_quadratic = "draw_bezier_quadratic"
-draw_circle = "draw_circle"
-draw_ellipse = "draw_ellipse"
-draw_image = "draw_image"
-draw_image_quad = "draw_image_quad"
-draw_line = "draw_line"
-draw_polygon = "draw_polygon"
-draw_polyline = "draw_polyline"
-draw_quad = "draw_quad"
-draw_rectangle = "draw_rectangle"
-draw_text = "draw_text"
-draw_triangle = "draw_triangle"
-get_drawing_mouse_pos = "get_drawing_mouse_pos"
-load_image = "load_image"
-load_init_file = "load_init_file"
-set_item_payload_type = "set_item_payload_type"
 
-# --------------PARAMETERS--------------[371]
+# --------------FUNCTIONS--------------[23]
 
-x = "x"
-y = "y"
-label = "label"
-user_data = "user_data"
-use_internal_label = "use_internal_label"
-tag = "tag"
-parent = "parent"
-before = "before"
-source = "source"
+add_async_function = "add_async_function"
+add_monitor = "add_monitor"
+add_threaded_task = "add_threaded_task"
+component_exists = "component_exists"
+delete_all = "delete_all"
+delete_element = "delete_element"
+display_system_state = "display_system_state"
+find_texture_registry = "find_texture_registry"
+get = "get"
+get_label_text = "get_label_text"
+get_state = "get_state"
+get_value = "get_value"
+hide = "hide"
+image_from_data_source = "image_from_data_source"
+image_from_file = "image_from_file"
+list_to_sublists = "list_to_sublists"
+put = "put"
+remove_monitor = "remove_monitor"
+set_value = "set_value"
 show = "show"
-xbins = "xbins"
-ybins = "ybins"
-xmin_range = "xmin_range"
-xmax_range = "xmax_range"
-ymin_range = "ymin_range"
-ymax_range = "ymax_range"
-density = "density"
-outliers = "outliers"
-width = "width"
-height = "height"
-indent = "indent"
-payload_type = "payload_type"
+spawn = "spawn"
+store_contains = "store_contains"
+toggle_monitor = "toggle_monitor"
+
+# --------------PARAMETERS--------------[360]
+
+_format = "_format"
+alias = "alias"
+alpha_bar = "alpha_bar"
+alpha_preview = "alpha_preview"
+always_on_top = "always_on_top"
+angle = "angle"
+anti_aliased = "anti_aliased"
+arrow = "arrow"
+aspect = "aspect"
+attr_1 = "attr_1"
+attr_2 = "attr_2"
+attribute_type = "attribute_type"
+autosize = "autosize"
+autosize_x = "autosize_x"
+autosize_y = "autosize_y"
+axis = "axis"
+background_color = "background_color"
+bar_scale = "bar_scale"
+bear_color = "bear_color"
+before = "before"
+bins = "bins"
+border = "border"
+border_color = "border_color"
+borders_innerH = "borders_innerH"
+borders_innerV = "borders_innerV"
+borders_outerH = "borders_outerH"
+borders_outerV = "borders_outerV"
+bottom = "bottom"
+bounds_max = "bounds_max"
+bounds_min = "bounds_min"
+box_select_button = "box_select_button"
+box_select_cancel_button = "box_select_cancel_button"
+box_select_mod = "box_select_mod"
+bull_color = "bull_color"
+bullet = "bullet"
+button = "button"
 callback = "callback"
-drag_callback = "drag_callback"
-drop_callback = "drop_callback"
-pos = "pos"
-filter_key = "filter_key"
-tracked = "tracked"
-track_offset = "track_offset"
+category = "category"
+center = "center"
+channel_count = "channel_count"
+chars = "chars"
+check = "check"
+circle_count = "circle_count"
+clamped = "clamped"
+clear_color = "clear_color"
+clipper = "clipper"
+closable = "closable"
+closed = "closed"
+closes = "closes"
+collapsed = "collapsed"
+color = "color"
+color_bottom_left = "color_bottom_left"
+color_bottom_right = "color_bottom_right"
+color_upper_left = "color_upper_left"
+color_upper_right = "color_upper_right"
+colormap = "colormap"
+colors = "colors"
+cols = "cols"
+column_major = "column_major"
+column_ratios = "column_ratios"
+columns = "columns"
+context_menu_button = "context_menu_button"
+context_menu_in_body = "context_menu_in_body"
+contribute_to_bounds = "contribute_to_bounds"
+crosshairs = "crosshairs"
+cull_mode = "cull_mode"
+cumlative = "cumlative"
+custom_text = "custom_text"
+dates = "dates"
+decimal = "decimal"
+decorated = "decorated"
+default_filename = "default_filename"
+default_hide = "default_hide"
+default_open = "default_open"
+default_path = "default_path"
+default_sort = "default_sort"
 default_value = "default_value"
+delay_search = "delay_search"
+delink_callback = "delink_callback"
+density = "density"
+depth_clipping = "depth_clipping"
+direction = "direction"
+directory_selector = "directory_selector"
+disable_popup_close = "disable_popup_close"
+display_hex = "display_hex"
+display_hsv = "display_hsv"
+display_mode = "display_mode"
+display_rgb = "display_rgb"
+display_type = "display_type"
+drag_callback = "drag_callback"
+drag_data = "drag_data"
+draggable = "draggable"
+drop_callback = "drop_callback"
+drop_data = "drop_data"
+enabled = "enabled"
+enabled_state = "enabled_state"
+equal_aspects = "equal_aspects"
+extension = "extension"
+eye = "eye"
+file = "file"
+file_count = "file_count"
+fill = "fill"
+filter_key = "filter_key"
+first_char = "first_char"
+fit_button = "fit_button"
+fov = "fov"
+frame_padding = "frame_padding"
+freeze_columns = "freeze_columns"
+freeze_rows = "freeze_rows"
+front = "front"
+gamma = "gamma"
+gamma_scale_factor = "gamma_scale_factor"
+header_row = "header_row"
+height = "height"
+height_mode = "height_mode"
+hexadecimal = "hexadecimal"
+hideable = "hideable"
+highs = "highs"
+hint = "hint"
+histogram = "histogram"
+horizontal = "horizontal"
+horizontal_mod = "horizontal_mod"
+horizontal_scrollbar = "horizontal_scrollbar"
+horizontal_spacing = "horizontal_spacing"
+hour24 = "hour24"
+indent = "indent"
+indent_disable = "indent_disable"
+indent_enable = "indent_enable"
+init_width_or_weight = "init_width_or_weight"
+inner_width = "inner_width"
+input_mode = "input_mode"
+invert = "invert"
+item = "item"
+item_type = "item_type"
+items = "items"
+key = "key"
+kwds = "kwds"
+label = "label"
+labels = "labels"
+large_icon = "large_icon"
+last_char = "last_char"
+leading = "leading"
+leaf = "leaf"
+left = "left"
+level = "level"
+link_all_x = "link_all_x"
+link_all_y = "link_all_y"
+link_columns = "link_columns"
+link_rows = "link_rows"
+location = "location"
+lock_max = "lock_max"
+lock_min = "lock_min"
+log_scale = "log_scale"
+lows = "lows"
+max_clamped = "max_clamped"
+max_height = "max_height"
+max_range = "max_range"
+max_scale = "max_scale"
+max_size = "max_size"
+max_value = "max_value"
+max_width = "max_width"
 max_x = "max_x"
 max_y = "max_y"
 max_z = "max_z"
+menubar = "menubar"
+min_clamped = "min_clamped"
+min_height = "min_height"
+min_range = "min_range"
+min_scale = "min_scale"
+min_size = "min_size"
+min_value = "min_value"
+min_width = "min_width"
 min_x = "min_x"
 min_y = "min_y"
 min_z = "min_z"
-scale = "scale"
-alias = "alias"
-item = "item"
-fill = "fill"
-contribute_to_bounds = "contribute_to_bounds"
-weight = "weight"
-horizontal = "horizontal"
-enabled = "enabled"
-small = "small"
-arrow = "arrow"
-direction = "direction"
-dates = "dates"
-opens = "opens"
-closes = "closes"
-lows = "lows"
-highs = "highs"
-bull_color = "bull_color"
-bear_color = "bear_color"
-tooltip = "tooltip"
-time_unit = "time_unit"
-target = "target"
-delay_search = "delay_search"
-border = "border"
-autosize_x = "autosize_x"
-autosize_y = "autosize_y"
-no_scrollbar = "no_scrollbar"
-horizontal_scrollbar = "horizontal_scrollbar"
-menubar = "menubar"
-no_scroll_with_mouse = "no_scroll_with_mouse"
-flattened_navigation = "flattened_navigation"
-closable = "closable"
-default_open = "default_open"
-open_on_double_click = "open_on_double_click"
-open_on_arrow = "open_on_arrow"
-leaf = "leaf"
-bullet = "bullet"
-no_alpha = "no_alpha"
-no_border = "no_border"
-no_drag_drop = "no_drag_drop"
-no_picker = "no_picker"
-no_options = "no_options"
-no_small_preview = "no_small_preview"
-no_inputs = "no_inputs"
-no_tooltip = "no_tooltip"
-no_label = "no_label"
-alpha_bar = "alpha_bar"
-alpha_preview = "alpha_preview"
-display_mode = "display_mode"
-display_type = "display_type"
-input_mode = "input_mode"
-no_side_preview = "no_side_preview"
-display_rgb = "display_rgb"
-display_hsv = "display_hsv"
-display_hex = "display_hex"
-picker_mode = "picker_mode"
-colors = "colors"
-qualitative = "qualitative"
-colormap = "colormap"
-min_scale = "min_scale"
-max_scale = "max_scale"
-items = "items"
-popup_align_left = "popup_align_left"
-no_arrow_button = "no_arrow_button"
-no_preview = "no_preview"
-height_mode = "height_mode"
-channel_count = "channel_count"
-y1 = "y1"
-y2 = "y2"
-y3 = "y3"
-level = "level"
-_format = "_format"
-speed = "speed"
-min_value = "min_value"
-max_value = "max_value"
-no_input = "no_input"
-clamped = "clamped"
-size = "size"
-color = "color"
-thickness = "thickness"
-show_label = "show_label"
-vertical = "vertical"
-drag_data = "drag_data"
-drop_data = "drop_data"
-perspective_divide = "perspective_divide"
-depth_clipping = "depth_clipping"
-cull_mode = "cull_mode"
-negative = "negative"
-positive = "positive"
-default_path = "default_path"
-default_filename = "default_filename"
-file_count = "file_count"
-modal = "modal"
-directory_selector = "directory_selector"
-min_size = "min_size"
-max_size = "max_size"
-cancel_callback = "cancel_callback"
-extension = "extension"
-custom_text = "custom_text"
-file = "file"
-pixel_snapH = "pixel_snapH"
-chars = "chars"
-first_char = "first_char"
-last_char = "last_char"
-hint = "hint"
-horizontal_spacing = "horizontal_spacing"
-xoffset = "xoffset"
-rows = "rows"
-cols = "cols"
-scale_min = "scale_min"
-scale_max = "scale_max"
-bounds_min = "bounds_min"
-bounds_max = "bounds_max"
-bins = "bins"
-bar_scale = "bar_scale"
-min_range = "min_range"
-max_range = "max_range"
-cumlative = "cumlative"
-texture_tag = "texture_tag"
-tint_color = "tint_color"
-border_color = "border_color"
-uv_min = "uv_min"
-uv_max = "uv_max"
-frame_padding = "frame_padding"
-background_color = "background_color"
-step = "step"
-step_fast = "step_fast"
-min_clamped = "min_clamped"
-max_clamped = "max_clamped"
-on_enter = "on_enter"
-readonly = "readonly"
-multiline = "multiline"
-no_spaces = "no_spaces"
-uppercase = "uppercase"
-tab_input = "tab_input"
-decimal = "decimal"
-hexadecimal = "hexadecimal"
-password = "password"
-scientific = "scientific"
-button = "button"
-key = "key"
-num_items = "num_items"
-style = "style"
-circle_count = "circle_count"
-radius = "radius"
-secondary_color = "secondary_color"
-shortcut = "shortcut"
-check = "check"
-threshold = "threshold"
-draggable = "draggable"
-attribute_type = "attribute_type"
-shape = "shape"
-category = "category"
-delink_callback = "delink_callback"
 minimap = "minimap"
 minimap_location = "minimap_location"
-attr_1 = "attr_1"
-attr_2 = "attr_2"
-values = "values"
-labels = "labels"
-angle = "angle"
-normalize = "normalize"
-no_title = "no_title"
-no_menus = "no_menus"
-no_box_select = "no_box_select"
-no_mouse_pos = "no_mouse_pos"
-no_highlight = "no_highlight"
-no_child = "no_child"
-query = "query"
-crosshairs = "crosshairs"
-anti_aliased = "anti_aliased"
-equal_aspects = "equal_aspects"
-use_local_time = "use_local_time"
-use_ISO8601 = "use_ISO8601"
-use_24hour_clock = "use_24hour_clock"
-pan_button = "pan_button"
-pan_mod = "pan_mod"
-fit_button = "fit_button"
-context_menu_button = "context_menu_button"
-box_select_button = "box_select_button"
-box_select_mod = "box_select_mod"
-box_select_cancel_button = "box_select_cancel_button"
-query_button = "query_button"
-query_mod = "query_mod"
-query_toggle_mod = "query_toggle_mod"
-horizontal_mod = "horizontal_mod"
-vertical_mod = "vertical_mod"
-offset = "offset"
-axis = "axis"
-no_gridlines = "no_gridlines"
-no_tick_marks = "no_tick_marks"
-no_tick_labels = "no_tick_labels"
-log_scale = "log_scale"
-invert = "invert"
-lock_min = "lock_min"
-lock_max = "lock_max"
-time = "time"
-location = "location"
-outside = "outside"
-overlay = "overlay"
-span_columns = "span_columns"
-disable_popup_close = "disable_popup_close"
-histogram = "histogram"
-autosize = "autosize"
-columns = "columns"
-row_ratios = "row_ratios"
-column_ratios = "column_ratios"
-no_resize = "no_resize"
+modal = "modal"
+multicolor = "multicolor"
+multiline = "multiline"
+negative = "negative"
 no_align = "no_align"
-link_rows = "link_rows"
-link_columns = "link_columns"
-link_all_x = "link_all_x"
-link_all_y = "link_all_y"
-column_major = "column_major"
-order_mode = "order_mode"
-reorderable = "reorderable"
-no_reorder = "no_reorder"
-leading = "leading"
-trailing = "trailing"
-header_row = "header_row"
-clipper = "clipper"
-inner_width = "inner_width"
-policy = "policy"
-freeze_rows = "freeze_rows"
-freeze_columns = "freeze_columns"
-sort_multi = "sort_multi"
-sort_tristate = "sort_tristate"
-resizable = "resizable"
-hideable = "hideable"
-sortable = "sortable"
-context_menu_in_body = "context_menu_in_body"
-row_background = "row_background"
-borders_innerH = "borders_innerH"
-borders_outerH = "borders_outerH"
-borders_innerV = "borders_innerV"
-borders_outerV = "borders_outerV"
+no_alpha = "no_alpha"
+no_arrow_button = "no_arrow_button"
+no_background = "no_background"
+no_border = "no_border"
+no_box_select = "no_box_select"
+no_bring_to_front_on_focus = "no_bring_to_front_on_focus"
+no_child = "no_child"
+no_clip = "no_clip"
+no_close = "no_close"
+no_collapse = "no_collapse"
+no_drag_drop = "no_drag_drop"
+no_focus_on_appearing = "no_focus_on_appearing"
+no_gridlines = "no_gridlines"
+no_header_width = "no_header_width"
+no_hide = "no_hide"
+no_highlight = "no_highlight"
 no_host_extendX = "no_host_extendX"
 no_host_extendY = "no_host_extendY"
+no_input = "no_input"
+no_inputs = "no_inputs"
 no_keep_columns_visible = "no_keep_columns_visible"
-precise_widths = "precise_widths"
-no_clip = "no_clip"
-pad_outerX = "pad_outerX"
-no_pad_outerX = "no_pad_outerX"
+no_label = "no_label"
+no_menus = "no_menus"
+no_mouse_pos = "no_mouse_pos"
+no_move = "no_move"
+no_open_over_existing_popup = "no_open_over_existing_popup"
+no_options = "no_options"
 no_pad_innerX = "no_pad_innerX"
-scrollX = "scrollX"
-scrollY = "scrollY"
+no_pad_outerX = "no_pad_outerX"
+no_picker = "no_picker"
+no_preview = "no_preview"
+no_reorder = "no_reorder"
+no_resize = "no_resize"
 no_saved_settings = "no_saved_settings"
-init_width_or_weight = "init_width_or_weight"
-default_hide = "default_hide"
-default_sort = "default_sort"
-width_stretch = "width_stretch"
-width_fixed = "width_fixed"
-no_hide = "no_hide"
+no_scrollbar = "no_scrollbar"
+no_side_preview = "no_side_preview"
+no_small_preview = "no_small_preview"
 no_sort = "no_sort"
 no_sort_ascending = "no_sort_ascending"
 no_sort_descending = "no_sort_descending"
-no_header_width = "no_header_width"
-prefer_sort_ascending = "prefer_sort_ascending"
-prefer_sort_descending = "prefer_sort_descending"
-indent_enable = "indent_enable"
-indent_disable = "indent_disable"
-wrap = "wrap"
-x_offset = "x_offset"
-y_offset = "y_offset"
-value = "value"
-item_type = "item_type"
-enabled_state = "enabled_state"
-hour24 = "hour24"
-delay = "delay"
-hide_on_activity = "hide_on_activity"
-selectable = "selectable"
-front = "front"
-collapsed = "collapsed"
+no_spaces = "no_spaces"
+no_tick_labels = "no_tick_labels"
+no_tick_marks = "no_tick_marks"
+no_title = "no_title"
 no_title_bar = "no_title_bar"
-no_move = "no_move"
-no_collapse = "no_collapse"
-no_focus_on_appearing = "no_focus_on_appearing"
-no_bring_to_front_on_focus = "no_bring_to_front_on_focus"
-no_close = "no_close"
-no_background = "no_background"
-popup = "popup"
-no_open_over_existing_popup = "no_open_over_existing_popup"
+no_tooltip = "no_tooltip"
+normalize = "normalize"
+num_items = "num_items"
+offset = "offset"
 on_close = "on_close"
-eye = "eye"
-pitch = "pitch"
-yaw = "yaw"
-up = "up"
-left = "left"
-right = "right"
-bottom = "bottom"
-top = "top"
-zNear = "zNear"
-zFar = "zFar"
-fov = "fov"
-aspect = "aspect"
-scales = "scales"
-translation = "translation"
-title = "title"
-small_icon = "small_icon"
-large_icon = "large_icon"
-x_pos = "x_pos"
-y_pos = "y_pos"
-min_width = "min_width"
-max_width = "max_width"
-min_height = "min_height"
-max_height = "max_height"
-vsync = "vsync"
-always_on_top = "always_on_top"
-decorated = "decorated"
-clear_color = "clear_color"
-disable_close = "disable_close"
+on_enter = "on_enter"
+open_on_arrow = "open_on_arrow"
+open_on_double_click = "open_on_double_click"
+opens = "opens"
+order_mode = "order_mode"
+outliers = "outliers"
+outside = "outside"
+overlay = "overlay"
 p1 = "p1"
 p2 = "p2"
 p3 = "p3"
 p4 = "p4"
-segments = "segments"
-center = "center"
-pmin = "pmin"
+pad_outerX = "pad_outerX"
+pan_button = "pan_button"
+pan_mod = "pan_mod"
+parent = "parent"
+password = "password"
+payload_type = "payload_type"
+perspective_divide = "perspective_divide"
+picker_mode = "picker_mode"
+pitch = "pitch"
 pmax = "pmax"
+pmin = "pmin"
+points = "points"
+policy = "policy"
+popup = "popup"
+popup_align_left = "popup_align_left"
+pos = "pos"
+positive = "positive"
+precise_widths = "precise_widths"
+prefer_sort_ascending = "prefer_sort_ascending"
+prefer_sort_descending = "prefer_sort_descending"
+qualitative = "qualitative"
+query = "query"
+query_button = "query_button"
+query_mod = "query_mod"
+query_toggle_mod = "query_toggle_mod"
+radius = "radius"
+readonly = "readonly"
+reorderable = "reorderable"
+resizable = "resizable"
+right = "right"
+rounding = "rounding"
+row_background = "row_background"
+row_ratios = "row_ratios"
+rows = "rows"
+scale = "scale"
+scale_max = "scale_max"
+scale_min = "scale_min"
+scales = "scales"
+scientific = "scientific"
+scrollX = "scrollX"
+scrollY = "scrollY"
+secondary_color = "secondary_color"
+segments = "segments"
+selectable = "selectable"
+shape = "shape"
+shortcut = "shortcut"
+show = "show"
+show_label = "show_label"
+size = "size"
+small = "small"
+small_icon = "small_icon"
+sort_multi = "sort_multi"
+sort_tristate = "sort_tristate"
+sortable = "sortable"
+source = "source"
+span_columns = "span_columns"
+speed = "speed"
+step = "step"
+step_fast = "step_fast"
+style = "style"
+tab_input = "tab_input"
+tag = "tag"
+target = "target"
+text = "text"
+texture_tag = "texture_tag"
+thickness = "thickness"
+threshold = "threshold"
+time = "time"
+time_unit = "time_unit"
+tint_color = "tint_color"
+title = "title"
+tooltip = "tooltip"
+top = "top"
+track_offset = "track_offset"
+tracked = "tracked"
+trailing = "trailing"
+translation = "translation"
+up = "up"
+uppercase = "uppercase"
+use_internal_label = "use_internal_label"
+user_data = "user_data"
 uv1 = "uv1"
 uv2 = "uv2"
 uv3 = "uv3"
 uv4 = "uv4"
-kwds = "kwds"
-points = "points"
-closed = "closed"
-color_upper_left = "color_upper_left"
-color_upper_right = "color_upper_right"
-color_bottom_right = "color_bottom_right"
-color_bottom_left = "color_bottom_left"
-multicolor = "multicolor"
-rounding = "rounding"
-corner_colors = "corner_colors"
-text = "text"
-gamma = "gamma"
-gamma_scale_factor = "gamma_scale_factor"
+uv_max = "uv_max"
+uv_min = "uv_min"
+value = "value"
+values = "values"
+vertical = "vertical"
+vertical_mod = "vertical_mod"
+vsync = "vsync"
+weight = "weight"
+width = "width"
+width_fixed = "width_fixed"
+width_stretch = "width_stretch"
+wrap = "wrap"
+x = "x"
+x_offset = "x_offset"
+x_pos = "x_pos"
+xbins = "xbins"
+xmax_range = "xmax_range"
+xmin_range = "xmin_range"
+xoffset = "xoffset"
+y = "y"
+y1 = "y1"
+y2 = "y2"
+y3 = "y3"
+y_offset = "y_offset"
+y_pos = "y_pos"
+yaw = "yaw"
+ybins = "ybins"
+ymax_range = "ymax_range"
+ymin_range = "ymin_range"
+zFar = "zFar"
+zNear = "zNear"
 
 component_parameter_relations = {
     _2d_histogram_series: [
@@ -754,8 +768,6 @@ component_parameter_relations = {
         no_scrollbar,
         horizontal_scrollbar,
         menubar,
-        no_scroll_with_mouse,
-        flattened_navigation,
     ],
     clicked_handler: [],
     clipper: [
@@ -1318,7 +1330,6 @@ component_parameter_relations = {
         directory_selector,
         min_size,
         max_size,
-        cancel_callback,
     ],
     file_extension: [
         extension,
@@ -1373,7 +1384,7 @@ component_parameter_relations = {
         parent,
     ],
     focus_handler: [],
-    font: [file, size, label, user_data, use_internal_label, tag, pixel_snapH, parent],
+    font: [file, size, label, user_data, use_internal_label, tag, parent],
     font_chars: [chars, label, user_data, use_internal_label, tag, parent],
     font_range: [
         first_char,
@@ -1392,7 +1403,6 @@ component_parameter_relations = {
         use_internal_label,
         tag,
         width,
-        height,
         indent,
         parent,
         before,
@@ -1808,16 +1818,6 @@ component_parameter_relations = {
         callback,
         show,
     ],
-    item_double_clicked_handler: [
-        button,
-        label,
-        user_data,
-        use_internal_label,
-        tag,
-        parent,
-        callback,
-        show,
-    ],
     item_edited_handler: [
         label,
         user_data,
@@ -2214,9 +2214,6 @@ component_parameter_relations = {
         crosshairs,
         anti_aliased,
         equal_aspects,
-        use_local_time,
-        use_ISO8601,
-        use_24hour_clock,
         pan_button,
         pan_mod,
         fit_button,
@@ -2938,16 +2935,7 @@ component_parameter_relations = {
         hour24,
     ],
     toggled_open_handler: [],
-    tooltip: [
-        parent,
-        label,
-        user_data,
-        use_internal_label,
-        tag,
-        show,
-        delay,
-        hide_on_activity,
-    ],
+    tooltip: [parent, label, user_data, use_internal_label, tag, show],
     tree_node: [
         label,
         user_data,
@@ -3026,7 +3014,6 @@ component_parameter_relations = {
         popup,
         no_saved_settings,
         no_open_over_existing_popup,
-        no_scroll_with_mouse,
         on_close,
     ],
     context: [],
@@ -3054,7 +3041,6 @@ component_parameter_relations = {
         always_on_top,
         decorated,
         clear_color,
-        disable_close,
     ],
     draw_arrow: [
         p1,
@@ -3239,7 +3225,6 @@ component_parameter_relations = {
         multicolor,
         rounding,
         thickness,
-        corner_colors,
     ],
     draw_text: [
         pos,
@@ -3302,6 +3287,7 @@ __all__ = [
     "colormap_scale",
     "colormap_slider",
     "combo",
+    "context",
     "custom_series",
     "date_picker",
     "deactivated_after_edit_handler",
@@ -3317,8 +3303,22 @@ __all__ = [
     "drag_line",
     "drag_payload",
     "drag_point",
+    "draw_arrow",
+    "draw_bezier_cubic",
+    "draw_bezier_quadratic",
+    "draw_circle",
+    "draw_ellipse",
+    "draw_image",
+    "draw_image_quad",
     "draw_layer",
+    "draw_line",
     "draw_node",
+    "draw_polygon",
+    "draw_polyline",
+    "draw_quad",
+    "draw_rectangle",
+    "draw_text",
+    "draw_triangle",
     "drawlist",
     "dummy",
     "dynamic_texture",
@@ -3336,6 +3336,8 @@ __all__ = [
     "font_range",
     "font_range_hint",
     "font_registry",
+    "fps_matrix",
+    "get_drawing_mouse_pos",
     "group",
     "handler_registry",
     "heat_series",
@@ -3359,7 +3361,6 @@ __all__ = [
     "item_clicked_handler",
     "item_deactivated_after_edit_handler",
     "item_deactivated_handler",
-    "item_double_clicked_handler",
     "item_edited_handler",
     "item_focus_handler",
     "item_handler_registry",
@@ -3373,7 +3374,10 @@ __all__ = [
     "knob_float",
     "line_series",
     "listbox",
+    "load_image",
+    "load_init_file",
     "loading_indicator",
+    "lookat_matrix",
     "menu",
     "menu_bar",
     "menu_item",
@@ -3388,6 +3392,8 @@ __all__ = [
     "node_attribute",
     "node_editor",
     "node_link",
+    "orthographic_matrix",
+    "perspective_matrix",
     "pie_series",
     "plot",
     "plot_annotation",
@@ -3397,11 +3403,14 @@ __all__ = [
     "radio_button",
     "raw_texture",
     "resize_handler",
+    "rotation_matrix",
     "same_line",
+    "scale_matrix",
     "scatter_series",
     "selectable",
     "separator",
     "series_value",
+    "set_item_payload_type",
     "shade_series",
     "simple_plot",
     "slider_double",
@@ -3438,409 +3447,396 @@ __all__ = [
     "time_picker",
     "toggled_open_handler",
     "tooltip",
+    "translation_matrix",
     "tree_node",
     "value_registry",
+    "viewport",
     "viewport_drawlist",
     "viewport_menu_bar",
     "visible_handler",
     "vline_series",
     "window",
-    "context",
-    "fps_matrix",
-    "lookat_matrix",
-    "orthographic_matrix",
-    "perspective_matrix",
-    "rotation_matrix",
-    "scale_matrix",
-    "translation_matrix",
-    "viewport",
-    "draw_arrow",
-    "draw_bezier_cubic",
-    "draw_bezier_quadratic",
-    "draw_circle",
-    "draw_ellipse",
-    "draw_image",
-    "draw_image_quad",
-    "draw_line",
-    "draw_polygon",
-    "draw_polyline",
-    "draw_quad",
-    "draw_rectangle",
-    "draw_text",
-    "draw_triangle",
-    "get_drawing_mouse_pos",
-    "load_image",
-    "load_init_file",
-    "set_item_payload_type",
-    "x",
-    "y",
-    "label",
-    "user_data",
-    "use_internal_label",
-    "tag",
-    "parent",
-    "before",
-    "source",
+    "add_async_function",
+    "add_monitor",
+    "add_threaded_task",
+    "component_exists",
+    "delete_all",
+    "delete_element",
+    "display_system_state",
+    "find_texture_registry",
+    "get",
+    "get_label_text",
+    "get_state",
+    "get_value",
+    "hide",
+    "image_from_data_source",
+    "image_from_file",
+    "list_to_sublists",
+    "put",
+    "remove_monitor",
+    "set_value",
     "show",
-    "xbins",
-    "ybins",
-    "xmin_range",
-    "xmax_range",
-    "ymin_range",
-    "ymax_range",
-    "density",
-    "outliers",
-    "width",
-    "height",
-    "indent",
-    "payload_type",
+    "spawn",
+    "store_contains",
+    "toggle_monitor",
+    "_format",
+    "alias",
+    "alpha_bar",
+    "alpha_preview",
+    "always_on_top",
+    "angle",
+    "anti_aliased",
+    "arrow",
+    "aspect",
+    "attr_1",
+    "attr_2",
+    "attribute_type",
+    "autosize",
+    "autosize_x",
+    "autosize_y",
+    "axis",
+    "background_color",
+    "bar_scale",
+    "bear_color",
+    "before",
+    "bins",
+    "border",
+    "border_color",
+    "borders_innerH",
+    "borders_innerV",
+    "borders_outerH",
+    "borders_outerV",
+    "bottom",
+    "bounds_max",
+    "bounds_min",
+    "box_select_button",
+    "box_select_cancel_button",
+    "box_select_mod",
+    "bull_color",
+    "bullet",
+    "button",
     "callback",
-    "drag_callback",
-    "drop_callback",
-    "pos",
-    "filter_key",
-    "tracked",
-    "track_offset",
+    "category",
+    "center",
+    "channel_count",
+    "chars",
+    "check",
+    "circle_count",
+    "clamped",
+    "clear_color",
+    "clipper",
+    "closable",
+    "closed",
+    "closes",
+    "collapsed",
+    "color",
+    "color_bottom_left",
+    "color_bottom_right",
+    "color_upper_left",
+    "color_upper_right",
+    "colormap",
+    "colors",
+    "cols",
+    "column_major",
+    "column_ratios",
+    "columns",
+    "context_menu_button",
+    "context_menu_in_body",
+    "contribute_to_bounds",
+    "crosshairs",
+    "cull_mode",
+    "cumlative",
+    "custom_text",
+    "dates",
+    "decimal",
+    "decorated",
+    "default_filename",
+    "default_hide",
+    "default_open",
+    "default_path",
+    "default_sort",
     "default_value",
+    "delay_search",
+    "delink_callback",
+    "density",
+    "depth_clipping",
+    "direction",
+    "directory_selector",
+    "disable_popup_close",
+    "display_hex",
+    "display_hsv",
+    "display_mode",
+    "display_rgb",
+    "display_type",
+    "drag_callback",
+    "drag_data",
+    "draggable",
+    "drop_callback",
+    "drop_data",
+    "enabled",
+    "enabled_state",
+    "equal_aspects",
+    "extension",
+    "eye",
+    "file",
+    "file_count",
+    "fill",
+    "filter_key",
+    "first_char",
+    "fit_button",
+    "fov",
+    "frame_padding",
+    "freeze_columns",
+    "freeze_rows",
+    "front",
+    "gamma",
+    "gamma_scale_factor",
+    "header_row",
+    "height",
+    "height_mode",
+    "hexadecimal",
+    "hideable",
+    "highs",
+    "hint",
+    "histogram",
+    "horizontal",
+    "horizontal_mod",
+    "horizontal_scrollbar",
+    "horizontal_spacing",
+    "hour24",
+    "indent",
+    "indent_disable",
+    "indent_enable",
+    "init_width_or_weight",
+    "inner_width",
+    "input_mode",
+    "invert",
+    "item",
+    "item_type",
+    "items",
+    "key",
+    "kwds",
+    "label",
+    "labels",
+    "large_icon",
+    "last_char",
+    "leading",
+    "leaf",
+    "left",
+    "level",
+    "link_all_x",
+    "link_all_y",
+    "link_columns",
+    "link_rows",
+    "location",
+    "lock_max",
+    "lock_min",
+    "log_scale",
+    "lows",
+    "max_clamped",
+    "max_height",
+    "max_range",
+    "max_scale",
+    "max_size",
+    "max_value",
+    "max_width",
     "max_x",
     "max_y",
     "max_z",
+    "menubar",
+    "min_clamped",
+    "min_height",
+    "min_range",
+    "min_scale",
+    "min_size",
+    "min_value",
+    "min_width",
     "min_x",
     "min_y",
     "min_z",
-    "scale",
-    "alias",
-    "item",
-    "fill",
-    "contribute_to_bounds",
-    "weight",
-    "horizontal",
-    "enabled",
-    "small",
-    "arrow",
-    "direction",
-    "dates",
-    "opens",
-    "closes",
-    "lows",
-    "highs",
-    "bull_color",
-    "bear_color",
-    "tooltip",
-    "time_unit",
-    "target",
-    "delay_search",
-    "border",
-    "autosize_x",
-    "autosize_y",
-    "no_scrollbar",
-    "horizontal_scrollbar",
-    "menubar",
-    "no_scroll_with_mouse",
-    "flattened_navigation",
-    "closable",
-    "default_open",
-    "open_on_double_click",
-    "open_on_arrow",
-    "leaf",
-    "bullet",
-    "no_alpha",
-    "no_border",
-    "no_drag_drop",
-    "no_picker",
-    "no_options",
-    "no_small_preview",
-    "no_inputs",
-    "no_tooltip",
-    "no_label",
-    "alpha_bar",
-    "alpha_preview",
-    "display_mode",
-    "display_type",
-    "input_mode",
-    "no_side_preview",
-    "display_rgb",
-    "display_hsv",
-    "display_hex",
-    "picker_mode",
-    "colors",
-    "qualitative",
-    "colormap",
-    "min_scale",
-    "max_scale",
-    "items",
-    "popup_align_left",
-    "no_arrow_button",
-    "no_preview",
-    "height_mode",
-    "channel_count",
-    "y1",
-    "y2",
-    "y3",
-    "level",
-    "_format",
-    "speed",
-    "min_value",
-    "max_value",
-    "no_input",
-    "clamped",
-    "size",
-    "color",
-    "thickness",
-    "show_label",
-    "vertical",
-    "drag_data",
-    "drop_data",
-    "perspective_divide",
-    "depth_clipping",
-    "cull_mode",
-    "negative",
-    "positive",
-    "default_path",
-    "default_filename",
-    "file_count",
-    "modal",
-    "directory_selector",
-    "min_size",
-    "max_size",
-    "cancel_callback",
-    "extension",
-    "custom_text",
-    "file",
-    "pixel_snapH",
-    "chars",
-    "first_char",
-    "last_char",
-    "hint",
-    "horizontal_spacing",
-    "xoffset",
-    "rows",
-    "cols",
-    "scale_min",
-    "scale_max",
-    "bounds_min",
-    "bounds_max",
-    "bins",
-    "bar_scale",
-    "min_range",
-    "max_range",
-    "cumlative",
-    "texture_tag",
-    "tint_color",
-    "border_color",
-    "uv_min",
-    "uv_max",
-    "frame_padding",
-    "background_color",
-    "step",
-    "step_fast",
-    "min_clamped",
-    "max_clamped",
-    "on_enter",
-    "readonly",
-    "multiline",
-    "no_spaces",
-    "uppercase",
-    "tab_input",
-    "decimal",
-    "hexadecimal",
-    "password",
-    "scientific",
-    "button",
-    "key",
-    "num_items",
-    "style",
-    "circle_count",
-    "radius",
-    "secondary_color",
-    "shortcut",
-    "check",
-    "threshold",
-    "draggable",
-    "attribute_type",
-    "shape",
-    "category",
-    "delink_callback",
     "minimap",
     "minimap_location",
-    "attr_1",
-    "attr_2",
-    "values",
-    "labels",
-    "angle",
-    "normalize",
-    "no_title",
-    "no_menus",
-    "no_box_select",
-    "no_mouse_pos",
-    "no_highlight",
-    "no_child",
-    "query",
-    "crosshairs",
-    "anti_aliased",
-    "equal_aspects",
-    "use_local_time",
-    "use_ISO8601",
-    "use_24hour_clock",
-    "pan_button",
-    "pan_mod",
-    "fit_button",
-    "context_menu_button",
-    "box_select_button",
-    "box_select_mod",
-    "box_select_cancel_button",
-    "query_button",
-    "query_mod",
-    "query_toggle_mod",
-    "horizontal_mod",
-    "vertical_mod",
-    "offset",
-    "axis",
-    "no_gridlines",
-    "no_tick_marks",
-    "no_tick_labels",
-    "log_scale",
-    "invert",
-    "lock_min",
-    "lock_max",
-    "time",
-    "location",
-    "outside",
-    "overlay",
-    "span_columns",
-    "disable_popup_close",
-    "histogram",
-    "autosize",
-    "columns",
-    "row_ratios",
-    "column_ratios",
-    "no_resize",
+    "modal",
+    "multicolor",
+    "multiline",
+    "negative",
     "no_align",
-    "link_rows",
-    "link_columns",
-    "link_all_x",
-    "link_all_y",
-    "column_major",
-    "order_mode",
-    "reorderable",
-    "no_reorder",
-    "leading",
-    "trailing",
-    "header_row",
-    "clipper",
-    "inner_width",
-    "policy",
-    "freeze_rows",
-    "freeze_columns",
-    "sort_multi",
-    "sort_tristate",
-    "resizable",
-    "hideable",
-    "sortable",
-    "context_menu_in_body",
-    "row_background",
-    "borders_innerH",
-    "borders_outerH",
-    "borders_innerV",
-    "borders_outerV",
+    "no_alpha",
+    "no_arrow_button",
+    "no_background",
+    "no_border",
+    "no_box_select",
+    "no_bring_to_front_on_focus",
+    "no_child",
+    "no_clip",
+    "no_close",
+    "no_collapse",
+    "no_drag_drop",
+    "no_focus_on_appearing",
+    "no_gridlines",
+    "no_header_width",
+    "no_hide",
+    "no_highlight",
     "no_host_extendX",
     "no_host_extendY",
+    "no_input",
+    "no_inputs",
     "no_keep_columns_visible",
-    "precise_widths",
-    "no_clip",
-    "pad_outerX",
-    "no_pad_outerX",
+    "no_label",
+    "no_menus",
+    "no_mouse_pos",
+    "no_move",
+    "no_open_over_existing_popup",
+    "no_options",
     "no_pad_innerX",
-    "scrollX",
-    "scrollY",
+    "no_pad_outerX",
+    "no_picker",
+    "no_preview",
+    "no_reorder",
+    "no_resize",
     "no_saved_settings",
-    "init_width_or_weight",
-    "default_hide",
-    "default_sort",
-    "width_stretch",
-    "width_fixed",
-    "no_hide",
+    "no_scrollbar",
+    "no_side_preview",
+    "no_small_preview",
     "no_sort",
     "no_sort_ascending",
     "no_sort_descending",
-    "no_header_width",
-    "prefer_sort_ascending",
-    "prefer_sort_descending",
-    "indent_enable",
-    "indent_disable",
-    "wrap",
-    "x_offset",
-    "y_offset",
-    "value",
-    "item_type",
-    "enabled_state",
-    "hour24",
-    "delay",
-    "hide_on_activity",
-    "selectable",
-    "front",
-    "collapsed",
+    "no_spaces",
+    "no_tick_labels",
+    "no_tick_marks",
+    "no_title",
     "no_title_bar",
-    "no_move",
-    "no_collapse",
-    "no_focus_on_appearing",
-    "no_bring_to_front_on_focus",
-    "no_close",
-    "no_background",
-    "popup",
-    "no_open_over_existing_popup",
+    "no_tooltip",
+    "normalize",
+    "num_items",
+    "offset",
     "on_close",
-    "eye",
-    "pitch",
-    "yaw",
-    "up",
-    "left",
-    "right",
-    "bottom",
-    "top",
-    "zNear",
-    "zFar",
-    "fov",
-    "aspect",
-    "scales",
-    "translation",
-    "title",
-    "small_icon",
-    "large_icon",
-    "x_pos",
-    "y_pos",
-    "min_width",
-    "max_width",
-    "min_height",
-    "max_height",
-    "vsync",
-    "always_on_top",
-    "decorated",
-    "clear_color",
-    "disable_close",
+    "on_enter",
+    "open_on_arrow",
+    "open_on_double_click",
+    "opens",
+    "order_mode",
+    "outliers",
+    "outside",
+    "overlay",
     "p1",
     "p2",
     "p3",
     "p4",
-    "segments",
-    "center",
-    "pmin",
+    "pad_outerX",
+    "pan_button",
+    "pan_mod",
+    "parent",
+    "password",
+    "payload_type",
+    "perspective_divide",
+    "picker_mode",
+    "pitch",
     "pmax",
+    "pmin",
+    "points",
+    "policy",
+    "popup",
+    "popup_align_left",
+    "pos",
+    "positive",
+    "precise_widths",
+    "prefer_sort_ascending",
+    "prefer_sort_descending",
+    "qualitative",
+    "query",
+    "query_button",
+    "query_mod",
+    "query_toggle_mod",
+    "radius",
+    "readonly",
+    "reorderable",
+    "resizable",
+    "right",
+    "rounding",
+    "row_background",
+    "row_ratios",
+    "rows",
+    "scale",
+    "scale_max",
+    "scale_min",
+    "scales",
+    "scientific",
+    "scrollX",
+    "scrollY",
+    "secondary_color",
+    "segments",
+    "selectable",
+    "shape",
+    "shortcut",
+    "show",
+    "show_label",
+    "size",
+    "small",
+    "small_icon",
+    "sort_multi",
+    "sort_tristate",
+    "sortable",
+    "source",
+    "span_columns",
+    "speed",
+    "step",
+    "step_fast",
+    "style",
+    "tab_input",
+    "tag",
+    "target",
+    "text",
+    "texture_tag",
+    "thickness",
+    "threshold",
+    "time",
+    "time_unit",
+    "tint_color",
+    "title",
+    "tooltip",
+    "top",
+    "track_offset",
+    "tracked",
+    "trailing",
+    "translation",
+    "up",
+    "uppercase",
+    "use_internal_label",
+    "user_data",
     "uv1",
     "uv2",
     "uv3",
     "uv4",
-    "kwds",
-    "points",
-    "closed",
-    "color_upper_left",
-    "color_upper_right",
-    "color_bottom_right",
-    "color_bottom_left",
-    "multicolor",
-    "rounding",
-    "corner_colors",
-    "text",
-    "gamma",
-    "gamma_scale_factor",
+    "uv_max",
+    "uv_min",
+    "value",
+    "values",
+    "vertical",
+    "vertical_mod",
+    "vsync",
+    "weight",
+    "width",
+    "width_fixed",
+    "width_stretch",
+    "wrap",
+    "x",
+    "x_offset",
+    "x_pos",
+    "xbins",
+    "xmax_range",
+    "xmin_range",
+    "xoffset",
+    "y",
+    "y1",
+    "y2",
+    "y3",
+    "y_offset",
+    "y_pos",
+    "yaw",
+    "ybins",
+    "ymax_range",
+    "ymin_range",
+    "zFar",
+    "zNear",
 ]

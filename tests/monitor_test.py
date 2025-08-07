@@ -4,7 +4,7 @@ setup_pathing()
 
 from jsontodpg import JsonToDpg
 
-# --- NEW: Import all keywords, which now includes our functions ---
+
 from dpgkeywords import *
 import json
 
@@ -71,10 +71,10 @@ main_ui = {
         {add_monitor: ["xp_boost", "boost_display"]},
         {
             add_async_function: {
-                "args": [60],
+                "args": [1],
                 "kwargs": {
                     "function": {
-                        display_system_state: ["store_display", "monitors_display"]
+                        "display_system_state": ["store_display", "monitors_display"]
                     },
                     "name": "SystemStateMonitor",
                 },
@@ -88,7 +88,7 @@ main_ui = {
             width: 450,
             height: 700,
             pos: [10, 10],
-            "children": [
+            "input_window_controls": [
                 {text: {default_value: "Toggle 'Sync' to enable/disable reactivity."}},
                 {separator: {}},
                 {
@@ -116,7 +116,7 @@ main_ui = {
                                     tag: "name_sync_check",
                                     default_value: True,
                                     callback: {
-                                        toggle_monitor: [
+                                        "toggle_monitor": [
                                             "name_sync_check",
                                             "player_name",
                                             "name_display",
@@ -153,7 +153,7 @@ main_ui = {
                                     tag: "level_sync_check",
                                     default_value: True,
                                     callback: {
-                                        toggle_monitor: [
+                                        "toggle_monitor": [
                                             "level_sync_check",
                                             "player_level",
                                             "level_display",
@@ -189,7 +189,8 @@ main_ui = {
                                     tag: "premium_sync_check",
                                     default_value: True,
                                     callback: {
-                                        toggle_monitor: [
+                                        "toggle_monitor": [
+                                            "premium_sync_check", 
                                             "is_premium",
                                             "premium_display",
                                         ]
@@ -225,7 +226,7 @@ main_ui = {
                                     tag: "color_sync_check",
                                     default_value: True,
                                     callback: {
-                                        toggle_monitor: [
+                                        "toggle_monitor": [
                                             "color_sync_check",
                                             "profile_color",
                                             "color_display",
@@ -264,7 +265,7 @@ main_ui = {
                                     tag: "boost_sync_check",
                                     default_value: True,
                                     callback: {
-                                        toggle_monitor: [
+                                        "toggle_monitor": [
                                             "boost_sync_check",
                                             "xp_boost",
                                             "boost_display",
@@ -284,7 +285,7 @@ main_ui = {
             width: 450,
             height: 350,
             pos: [470, 10],
-            "children": [
+            "display_window_inner": [
                 {
                     text: {
                         default_value: "This window's values update if 'Sync' is enabled."
@@ -345,7 +346,7 @@ main_ui = {
             width: 450,
             height: 340,
             pos: [470, 370],
-            "children": [
+            "display_window_controls": [
                 {
                     group: {
                         horizontal: True,

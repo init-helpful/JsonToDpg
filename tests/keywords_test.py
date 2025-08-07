@@ -27,7 +27,7 @@ main_ui = {
         label: "Automatic Keyword Demo",
         width: 780,
         height: 380,
-        "children": [
+        "window-controls": [
             {
                 text: {
                     default_value: "This script automatically generated dpgkeywords.py."

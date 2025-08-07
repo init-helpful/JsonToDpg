@@ -2,7 +2,6 @@ import threading
 import queue
 from collections import defaultdict
 
-
 class Controller:
     def __init__(self, jsontodpg):
         self.jsontodpg = jsontodpg
@@ -14,23 +13,8 @@ class Controller:
         )
 
     def spawn(self, json_data, parent=None):
-        """
-        Dynamically creates new UI elements from a dictionary definition.
-        This method now correctly manages the parent context for nested parses.
-        """
-
-        # 1. Store the current parent stack to restore it later.
-        original_parent_stack = self.jsontodpg.parent_stack[:]
-
-        # 2. Set the context for this spawn operation. If a parent is specified,
-        #    it becomes the new root for this parse.
-        self.jsontodpg.parent_stack = [parent] if parent else []
-
-        # 3. Call the simplified parse method, which no longer resets the stack.
-        self.jsontodpg.parse(json_data)
-
-        # 4. Restore the original parent stack to not interfere with other operations.
-        self.jsontodpg.parent_stack = original_parent_stack
+        """Dynamically creates new UI elements under a specified parent."""
+        self.jsontodpg.parse(json_data, parent=parent)
 
     def add_monitor(self, store_key, ui_tag, formatter=None):
         print(f"Adding monitor: store_key='{store_key}' -> ui_tag='{ui_tag}'")
@@ -90,32 +74,32 @@ class Controller:
         thread.start()
 
     def hide(self, tag):
-        self.jsontodpg.dpg.hide_item(tag)
+        if self.component_exists(tag): self.jsontodpg.dpg.hide_item(tag)
 
     def show(self, tag):
-        self.jsontodpg.dpg.show_item(tag)
+        if self.component_exists(tag): self.jsontodpg.dpg.show_item(tag)
 
     def component_exists(self, tag):
         return self.jsontodpg.dpg.does_item_exist(tag)
 
     def get_label_text(self, tag):
-        return self.jsontodpg.dpg.get_item_label(tag)
+        if self.component_exists(tag): return self.jsontodpg.dpg.get_item_label(tag)
 
     def get_value(self, tag):
-        return self.jsontodpg.dpg.get_value(tag)
+        if self.component_exists(tag): return self.jsontodpg.dpg.get_value(tag)
 
     def set_value(self, tag, value):
-        self.jsontodpg.dpg.set_value(tag, value)
+        if self.component_exists(tag): self.jsontodpg.dpg.set_value(tag, value)
 
     def get_state(self, tag):
-        return self.jsontodpg.dpg.get_item_state(tag)
+        if self.component_exists(tag): return self.jsontodpg.dpg.get_item_state(tag)
 
     def delete_element(self, tag):
-        self.jsontodpg.dpg.delete_item(tag)
+        if self.component_exists(tag): self.jsontodpg.dpg.delete_item(tag)
 
     def delete_all(self, tags=[]):
         for tag in tags:
-            self.delete(tag)
+            self.delete_element(tag)
 
     def store_contains(self, key_path):
         return key_path in self.model
